@@ -1,0 +1,21 @@
+{
+  "name": "buddy-brawl",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Buddy Brawl monorepo",
+  "scripts": {
+    "dev": "pnpm --filter @buddy-brawl/api dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f api"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.4",
+    "vitest": "^1.6.0"
+  },
+  "packageManager": "pnpm@11.7.0"
+}

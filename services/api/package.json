@@ -1,0 +1,29 @@
+{
+  "name": "@buddy-brawl/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@buddy-brawl/battle": "workspace:*",
+    "@buddy-brawl/configs": "workspace:*",
+    "@buddy-brawl/shared": "workspace:*",
+    "@fastify/cors": "^9.0.1",
+    "@prisma/client": "^5.16.1",
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.16.1",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4",
+    "vitest": "^1.6.0"
+  }
+}

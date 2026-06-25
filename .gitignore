@@ -1,0 +1,10 @@
+node_modules/
+.pnpm-store/
+dist/
+.env*
+!.env.example
+.DS_Store
+coverage/
+.turbo/
+.superpowers/
+services/api/prisma/dev.db

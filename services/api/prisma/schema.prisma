@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id             String   @id @default(cuid())
+  platformOpenId String   @unique
+  nickname       String
+  avatarUrl      String?
+  currentPetId   String?  @unique
+  arenaScore     Int      @default(1000)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  pets               Pet[]
+  equipmentInstances EquipmentInstance[]
+  adventureState     AdventureState?
+  arenaState         ArenaState?
+  taskProgress       TaskProgress[]
+  rewardLogs         RewardLog[]
+  attackBattles      BattleRecord[] @relation("BattleAttacker")
+  defenseBattles     BattleRecord[] @relation("BattleDefender")
+  currentPet         Pet?           @relation("CurrentPet", fields: [currentPetId], references: [id])
+}
+
+model Pet {
+  id        String   @id @default(cuid())
+  playerId  String
+  configId  String
+  name      String
+  level     Int      @default(1)
+  exp       Int      @default(0)
+  hp        Int
+  attack    Int
+  defense   Int
+  speed     Int
+  critRate  Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  player Player @relation(fields: [playerId], references: [id])
+  currentForPlayer Player? @relation("CurrentPet")
+
+  @@index([playerId])
+}
+
+model EquipmentInstance {
+  id           String   @id @default(cuid())
+  playerId     String
+  configId     String
+  slot         String
+  equippedSlot String?
+  quality      String
+  enhanceLevel Int      @default(0)
+  isEquipped   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@index([playerId])
+  @@index([playerId, isEquipped])
+  @@unique([playerId, equippedSlot])
+}
+
+model AdventureState {
+  id              String   @id @default(cuid())
+  playerId        String   @unique
+  currentStageId  String
+  lastClaimedAt   DateTime @default(now())
+  storedGold      Int      @default(0)
+  storedExp       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  player Player @relation(fields: [playerId], references: [id])
+}
+
+model ArenaState {
+  id                  String   @id @default(cuid())
+  playerId            String   @unique
+  score               Int      @default(1000)
+  dailyChallengeCount Int      @default(0)
+  lastResetAt         DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@index([score])
+}
+
+model BattleRecord {
+  id               String   @id @default(cuid())
+  scene            String
+  seed             Int
+  attackerPlayerId String
+  defenderPlayerId String
+  winnerSide       String
+  attackerSnapshot Json
+  defenderSnapshot Json
+  events           Json
+  rewards          Json
+  createdAt        DateTime @default(now())
+
+  attacker Player @relation("BattleAttacker", fields: [attackerPlayerId], references: [id])
+  defender Player @relation("BattleDefender", fields: [defenderPlayerId], references: [id])
+
+  @@index([attackerPlayerId])
+  @@index([defenderPlayerId])
+  @@index([createdAt])
+}
+
+model TaskProgress {
+  id             String   @id @default(cuid())
+  playerId       String
+  taskId         String
+  currentCount   Int      @default(0)
+  claimed        Boolean  @default(false)
+  lastProgressAt DateTime @default(now())
+
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@unique([playerId, taskId])
+}
+
+model RewardLog {
+  id        String   @id @default(cuid())
+  playerId  String
+  source    String
+  sourceId  String
+  rewards   Json
+  createdAt DateTime @default(now())
+
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@index([playerId])
+  @@unique([source, sourceId, playerId])
+}
+
+model ConfigVersion {
+  id        String   @id @default(cuid())
+  version   String   @unique
+  active    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

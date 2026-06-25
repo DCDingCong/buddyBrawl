@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: buddy
+      POSTGRES_PASSWORD: buddy_dev_password
+      POSTGRES_DB: buddy_brawl
+    ports:
+      - "${POSTGRES_HOST_PORT:-127.0.0.1:5432}:5432"
+    volumes:
+      - buddy_brawl_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U buddy -d buddy_brawl"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  adminer:
+    image: adminer:4
+    restart: unless-stopped
+    ports:
+      - "${ADMINER_HOST_PORT:-127.0.0.1:8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://buddy:buddy_dev_password@postgres:5432/buddy_brawl?schema=public
+      JWT_SECRET: local_dev_secret
+      CONFIG_VERSION: phase-1
+    ports:
+      - "${API_HOST_PORT:-127.0.0.1:3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/services/api/node_modules
+
+volumes:
+  buddy_brawl_pgdata:

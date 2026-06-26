@@ -1,7 +1,6 @@
 import { taskConfigs } from "@buddy-brawl/configs";
+import type { TaskType } from "@buddy-brawl/configs";
 import type { Prisma } from "@prisma/client";
-
-type TaskType = (typeof taskConfigs)[number]["type"];
 
 export async function incrementTaskProgress(
   tx: Prisma.TransactionClient,

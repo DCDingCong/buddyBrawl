@@ -127,7 +127,8 @@ export interface EquipmentActionRequest {
 export interface TaskView {
   taskId: string;
   name: string;
-  type: "login" | "claim_adventure" | "enhance_equipment" | "arena_challenge";
+  type: "login" | "view_battle_report" | "complete_battle" | "pet_level" | "battle_count" | "claim_adventure" | "enhance_equipment";
+  category: "daily" | "main";
   currentCount: number;
   targetCount: number;
   claimed: boolean;

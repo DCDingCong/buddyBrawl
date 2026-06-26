@@ -92,6 +92,7 @@ function toTaskView(progress: TaskProgressRecord | undefined, config: (typeof ta
     taskId: config.id,
     name: config.name,
     type: config.type,
+    category: config.category,
     currentCount,
     targetCount: config.targetCount,
     claimed,

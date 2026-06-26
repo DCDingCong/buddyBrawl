@@ -77,6 +77,10 @@ class EmptyArenaRepository implements ArenaRepository {
   async findBattleForPlayer() {
     return null;
   }
+
+  async markBattleViewed() {
+    return undefined;
+  }
 }
 
 class EmptyLeaderboardRepository implements LeaderboardRepository {
@@ -158,17 +162,22 @@ function createTaskState(): TaskStateRecord {
         claimed: false
       },
       {
-        taskId: "first_claim_adventure",
+        taskId: "daily_view_battle_report",
         currentCount: 1,
         claimed: false
       },
       {
-        taskId: "first_enhance_equipment",
+        taskId: "daily_complete_battle",
         currentCount: 0,
         claimed: false
       },
       {
-        taskId: "first_arena_challenge",
+        taskId: "main_reach_level_2",
+        currentCount: 0,
+        claimed: false
+      },
+      {
+        taskId: "main_complete_3_battles",
         currentCount: 0,
         claimed: false
       }
@@ -177,7 +186,7 @@ function createTaskState(): TaskStateRecord {
 }
 
 describe("task routes", () => {
-  test("lists task progress with claimable state", async () => {
+  test("lists V0.2 daily and main task progress with claimable state", async () => {
     const app = await createTestApp(new MemoryTaskRepository(createTaskState()));
 
     const response = await app.inject({
@@ -192,82 +201,77 @@ describe("task routes", () => {
     expect(response.json().data.tasks).toEqual([
       {
         taskId: "daily_login",
-        name: "每日进入游戏",
+        name: "每日登录",
         type: "login",
+        category: "daily",
         currentCount: 1,
         targetCount: 1,
         claimed: false,
         claimable: true,
-        rewards: [
-          {
-            type: "gold",
-            amount: 50
-          }
-        ]
+        rewards: [{ type: "gold", amount: 50 }]
       },
       {
-        taskId: "first_claim_adventure",
-        name: "领取一次冒险收益",
-        type: "claim_adventure",
+        taskId: "daily_view_battle_report",
+        name: "查看战报",
+        type: "view_battle_report",
+        category: "daily",
         currentCount: 1,
         targetCount: 1,
         claimed: false,
         claimable: true,
-        rewards: [
-          {
-            type: "gold",
-            amount: 80
-          }
-        ]
+        rewards: [{ type: "gold", amount: 60 }]
       },
       {
-        taskId: "first_enhance_equipment",
-        name: "强化一次装备",
-        type: "enhance_equipment",
+        taskId: "daily_complete_battle",
+        name: "完成战斗",
+        type: "complete_battle",
+        category: "daily",
         currentCount: 0,
         targetCount: 1,
         claimed: false,
         claimable: false,
-        rewards: [
-          {
-            type: "enhanceMaterial",
-            amount: 3
-          }
-        ]
+        rewards: [{ type: "gold", amount: 100 }]
       },
       {
-        taskId: "first_arena_challenge",
-        name: "完成一次竞技挑战",
-        type: "arena_challenge",
+        taskId: "main_reach_level_2",
+        name: "熊猫升到 2 级",
+        type: "pet_level",
+        category: "main",
         currentCount: 0,
-        targetCount: 1,
+        targetCount: 2,
         claimed: false,
         claimable: false,
-        rewards: [
-          {
-            type: "gold",
-            amount: 120
-          }
-        ]
+        rewards: [{ type: "gold", amount: 150 }]
+      },
+      {
+        taskId: "main_complete_3_battles",
+        name: "完成 3 场战斗",
+        type: "battle_count",
+        category: "main",
+        currentCount: 0,
+        targetCount: 3,
+        claimed: false,
+        claimable: false,
+        rewards: [{ type: "gold", amount: 200 }]
       }
     ]);
 
     await app.close();
   });
 
-  test("claiming a completed task grants rewards and prevents duplicate claim", async () => {
+  test("claiming a completed V0.2 task grants rewards and prevents duplicate claim", async () => {
     const app = await createTestApp(new MemoryTaskRepository(createTaskState()));
 
     const first = await app.inject({
       method: "POST",
-      url: "/tasks/first_claim_adventure/claim",
+      url: "/tasks/daily_view_battle_report/claim",
       headers: {
         authorization: "Bearer player-1"
       }
     });
     const second = await app.inject({
       method: "POST",
-      url: "/tasks/first_claim_adventure/claim",
+      url: "/tasks/daily_view_battle_report/claim",
       headers: {
         authorization: "Bearer player-1"
       }
@@ -275,7 +279,7 @@ describe("task routes", () => {
 
     expect(first.statusCode).toBe(200);
     expect(first.json().data.resources).toEqual({
-      gold: 80,
+      gold: 60,
       enhanceMaterial: 0,
       petExp: 0
     });

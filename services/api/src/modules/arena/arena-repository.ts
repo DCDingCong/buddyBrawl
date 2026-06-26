@@ -58,4 +58,5 @@ export interface ArenaRepository {
   saveChallenge(input: ArenaChallengeInput): Promise<ArenaBattleRecord>;
   findRecentBattles(playerId: string): Promise<ArenaBattleRecord[]>;
   findBattleForPlayer(playerId: string, battleId: string): Promise<ArenaBattleRecord | null>;
+  markBattleViewed(playerId: string, battleId: string, viewedAt: Date): Promise<void>;
 }

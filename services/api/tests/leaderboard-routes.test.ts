@@ -79,6 +79,10 @@ class EmptyArenaRepository implements ArenaRepository {
   async findBattleForPlayer() {
     return null;
   }
+
+  async markBattleViewed() {
+    return undefined;
+  }
 }
 
 class MemoryLeaderboardRepository implements LeaderboardRepository {

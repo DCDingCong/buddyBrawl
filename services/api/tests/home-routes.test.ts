@@ -110,7 +110,7 @@ describe("home route", () => {
       ],
       tasks: [
         {
-          taskId: "first_claim_adventure",
+          taskId: "daily_view_battle_report",
           currentCount: 1,
           claimed: false
         }

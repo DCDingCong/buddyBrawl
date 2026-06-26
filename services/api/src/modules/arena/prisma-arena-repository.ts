@@ -112,7 +112,7 @@ export function createPrismaArenaRepository(prisma: PrismaClient): ArenaReposito
           }
         });
 
-        await incrementTaskProgress(tx, input.attackerPlayerId, "arena_challenge", new Date());
+        await incrementTaskProgress(tx, input.attackerPlayerId, "complete_battle", new Date());
 
         return tx.battleRecord.create({
           data: {
@@ -169,6 +169,29 @@ export function createPrismaArenaRepository(prisma: PrismaClient): ArenaReposito
       });
 
       return record ? toArenaBattleRecord(record) : null;
+    },
+
+    async markBattleViewed(playerId: string, battleId: string, viewedAt: Date): Promise<void> {
+      await prisma.$transaction(async (tx) => {
+        await tx.battleReportView.upsert({
+          where: {
+            playerId_battleRecordId: {
+              playerId,
+              battleRecordId: battleId
+            }
+          },
+          update: {
+            viewedAt
+          },
+          create: {
+            playerId,
+            battleRecordId: battleId,
+            viewedAt
+          }
+        });
+
+        await incrementTaskProgress(tx, playerId, "view_battle_report", viewedAt);
+      });
     }
   };
 }

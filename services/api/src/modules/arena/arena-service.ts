@@ -105,6 +105,8 @@ export class ArenaService {
       return notFound("Battle record was not found.");
     }
 
+    await this.arenaRepository.markBattleViewed(playerId, battleId, this.now());
+
     return {
       ok: true,
       data: toBattleResultViewFromRecord(record)

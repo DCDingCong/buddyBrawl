@@ -57,6 +57,7 @@ class EmptyEquipmentRepository implements EquipmentRepository {
 
 class MemoryArenaRepository implements ArenaRepository {
   public records: ArenaStateRecord["battleRecords"] = [];
+  public viewedBattles: Array<{ playerId: string; battleId: string; viewedAt: Date }> = [];
 
   constructor(private players: ArenaStateRecord["players"]) {}
 
@@ -120,6 +121,10 @@ class MemoryArenaRepository implements ArenaRepository {
           record.id === battleId && (record.attackerPlayerId === playerId || record.defenderPlayerId === playerId)
       ) ?? null
     );
+  }
+
+  async markBattleViewed(playerId: string, battleId: string, viewedAt: Date) {
+    this.viewedBattles.push({ playerId, battleId, viewedAt });
   }
 }
 
@@ -338,6 +343,13 @@ describe("arena routes", () => {
     expect(ownBattle.statusCode).toBe(200);
     expect(ownBattle.json().data.battleId).toBe("battle-1");
     expect(ownBattle.json().data.events.length).toBeGreaterThan(0);
+    expect(repository.viewedBattles).toEqual([
+      {
+        playerId: "player-1",
+        battleId: "battle-1",
+        viewedAt: new Date("2026-06-26T08:30:00.000Z")
+      }
+    ]);
     expect(unrelatedBattle.statusCode).toBe(404);
 
     await app.close();

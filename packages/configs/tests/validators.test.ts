@@ -131,15 +131,15 @@ describe("validateConfigs", () => {
   });
 
   it("rejects invalid task rewards", () => {
-    const claimAdventureTask = taskConfigs.find((taskConfig) => taskConfig.id === "first_claim_adventure")!;
+    const loginTask = taskConfigs.find((taskConfig) => taskConfig.id === "daily_login")!;
     const result = validateConfigSets({
       ...validConfigSets,
-      tasks: [{ ...claimAdventureTask, targetCount: 0, rewards: [{ type: "gold", amount: 0 }] }]
+      tasks: [{ ...loginTask, targetCount: 0, rewards: [{ type: "gold", amount: 0 }] }]
     });
 
     expect(result.ok).toBe(false);
-    expect(result.errors).toContain("task first_claim_adventure.targetCount must be positive");
-    expect(result.errors).toContain("task first_claim_adventure reward amount must be positive");
+    expect(result.errors).toContain("task daily_login.targetCount must be positive");
+    expect(result.errors).toContain("task daily_login reward amount must be positive");
   });
 
   it("accepts first-version gold-only enhancement costs with extension slots", () => {

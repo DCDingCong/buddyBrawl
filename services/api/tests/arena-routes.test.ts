@@ -123,14 +123,17 @@ class MemoryArenaRepository implements ArenaRepository {
   }
 }
 
-async function createTestApp(repository: ArenaRepository): Promise<FastifyInstance> {
+async function createTestApp(
+  repository: ArenaRepository,
+  now: () => Date = () => new Date("2026-06-26T08:30:00.000Z")
+): Promise<FastifyInstance> {
   return buildApp({
     playerRepository: new EmptyPlayerRepository(),
     homeRepository: new EmptyHomeRepository(),
     adventureRepository: new EmptyAdventureRepository(),
     equipmentRepository: new EmptyEquipmentRepository(),
     arenaRepository: repository,
-    now: () => new Date("2026-06-26T08:30:00.000Z")
+    now
   });
 }
 
@@ -259,6 +262,45 @@ describe("arena routes", () => {
       opponentPlayerId: "player-2",
       winner: "attacker"
     });
+
+    await app.close();
+  });
+
+  test("challenge resolves equipment techniques into battle reports", async () => {
+    const players = createPlayers();
+    players[0]!.equipment = [
+      {
+        id: "equipment-1",
+        configId: "bamboo_staff_common",
+        slot: "weapon",
+        quality: "common",
+        enhanceLevel: 1,
+        stats: { attack: 6 }
+      }
+    ];
+    const repository = new MemoryArenaRepository(players);
+    const app = await createTestApp(repository, () => new Date("2026-06-26T08:37:00.000Z"));
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/arena/challenge",
+      headers: {
+        authorization: "Bearer player-1"
+      },
+      payload: {
+        defenderPlayerId: "player-2"
+      }
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(repository.records[0]?.events.some((event) => event.techniqueConfigId === "bamboo_staff_swing")).toBe(true);
+    expect(response.json().data.events).toContainEqual(
+      expect.objectContaining({
+        techniqueConfigId: "bamboo_staff_swing",
+        techniqueName: "竹棍敲一下",
+        techniqueEffectKind: "bonus_damage"
+      })
+    );
 
     await app.close();
   });

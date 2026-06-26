@@ -9,6 +9,7 @@ import type {
 } from "@buddy-brawl/shared";
 import type { ArenaBattleRecord, ArenaPlayerRecord, ArenaRepository } from "./arena-repository.js";
 import { notFound } from "../player/player-service.js";
+import { resolveTechniquesForEquipment } from "../techniques/technique-service.js";
 
 export interface ArenaServiceOptions {
   now?: () => Date;
@@ -54,13 +55,17 @@ export class ArenaService {
     }
 
     const seed = createBattleSeed(this.now());
+    const attackerTechniques = resolveTechniquesForEquipment(attacker.equipment);
+    const defenderTechniques = resolveTechniquesForEquipment(defender.equipment);
     const battle = simulateBattle({
       scene: "arena",
       seed,
       attacker: attacker.currentPet,
       defender: defender.currentPet,
       attackerEquipment: attacker.equipment,
-      defenderEquipment: defender.equipment
+      defenderEquipment: defender.equipment,
+      attackerTechniques,
+      defenderTechniques
     });
     const scoreDeltas = calculateScoreDeltas(battle.winner);
     const record = await this.arenaRepository.saveChallenge({

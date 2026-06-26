@@ -3,6 +3,7 @@ import type {
   ApiErrorResponse,
   ApiResponse,
   TaskClaimResponse,
+  TasksSummaryResponse,
   TasksResponse,
   TaskView
 } from "@buddy-brawl/shared";
@@ -22,6 +23,22 @@ export class TaskService {
       ok: true,
       data: {
         tasks: toTaskViews(state)
+      }
+    };
+  }
+
+  async getSummary(playerId: string): Promise<ApiResponse<TasksSummaryResponse> | ApiErrorResponse> {
+    const state = await this.taskRepository.findTaskStateByPlayerId(playerId);
+    if (!state) {
+      return notFound("Task state was not found.");
+    }
+
+    const tasks = toTaskViews(state);
+    return {
+      ok: true,
+      data: {
+        daily: tasks.filter((task) => task.category === "daily"),
+        main: tasks.filter((task) => task.category === "main")
       }
     };
   }

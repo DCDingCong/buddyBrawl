@@ -289,4 +289,29 @@ describe("task routes", () => {
 
     await app.close();
   });
+
+  test("summary returns daily and main task groups for the home modal", async () => {
+    const app = await createTestApp(new MemoryTaskRepository(createTaskState()));
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/tasks/summary",
+      headers: {
+        authorization: "Bearer player-1"
+      }
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data.daily.map((task: { taskId: string }) => task.taskId)).toEqual([
+      "daily_login",
+      "daily_view_battle_report",
+      "daily_complete_battle"
+    ]);
+    expect(response.json().data.main.map((task: { taskId: string }) => task.taskId)).toEqual([
+      "main_reach_level_2",
+      "main_complete_3_battles"
+    ]);
+
+    await app.close();
+  });
 });

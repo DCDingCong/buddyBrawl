@@ -140,6 +140,11 @@ export interface TasksResponse {
   tasks: TaskView[];
 }
 
+export interface TasksSummaryResponse {
+  daily: TaskView[];
+  main: TaskView[];
+}
+
 export interface TaskClaimResponse {
   task: TaskView;
   resources: {

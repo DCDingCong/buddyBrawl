@@ -18,6 +18,21 @@ export async function registerTaskRoutes(app: FastifyInstance, taskService: Task
     return result;
   });
 
+  app.get("/tasks/summary", async (request, reply) => {
+    const playerId = getBearerToken(request.headers.authorization);
+    if (!playerId) {
+      reply.code(401);
+      return unauthorized();
+    }
+
+    const result = await taskService.getSummary(playerId);
+    if (!result.ok) {
+      reply.code(404);
+    }
+
+    return result;
+  });
+
   app.post<{ Params: { taskId: string } }>("/tasks/:taskId/claim", async (request, reply) => {
     const playerId = getBearerToken(request.headers.authorization);
     if (!playerId) {

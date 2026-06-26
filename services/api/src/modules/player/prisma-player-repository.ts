@@ -99,6 +99,12 @@ export function createPrismaPlayerRepository(prisma: PrismaClient): PlayerReposi
           }
         });
 
+        await tx.patrolState.create({
+          data: {
+            playerId: createdPlayer.id
+          }
+        });
+
         const starterEquipment = equipmentConfigs.slice(0, 2);
         if (starterEquipment.length > 0) {
           await tx.equipmentInstance.createMany({

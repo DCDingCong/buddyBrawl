@@ -257,6 +257,27 @@ export interface BattleEventView {
   techniqueEffectKind?: BattleTechniqueEffectKind;
 }
 
+export interface PatrolEventView {
+  id: string;
+  kind: "found_gold" | "trained" | "ambushed";
+  title: string;
+  text: string;
+  rewards: RewardItem[];
+  happenedAt: string;
+}
+
+export interface PatrolSettleResponse {
+  rewards: RewardItem[];
+  settledMinutes: number;
+  maxRewardMinutes: number;
+  events: PatrolEventView[];
+  resources: {
+    gold: number;
+    petExp: number;
+  };
+  lastSettledAt: string;
+}
+
 export interface BattleResultView {
   battleId?: string;
   scene: BattleScene;

@@ -19,6 +19,9 @@ import { LeaderboardService } from "./modules/leaderboard/leaderboard-service.js
 import type { PlayerRepository } from "./modules/player/player-repository.js";
 import { createPrismaPlayerRepository } from "./modules/player/prisma-player-repository.js";
 import { PlayerService } from "./modules/player/player-service.js";
+import type { PatrolRepository } from "./modules/patrol/patrol-repository.js";
+import { createPrismaPatrolRepository } from "./modules/patrol/prisma-patrol-repository.js";
+import { PatrolService } from "./modules/patrol/patrol-service.js";
 import type { TaskRepository } from "./modules/tasks/task-repository.js";
 import { createPrismaTaskRepository } from "./modules/tasks/prisma-task-repository.js";
 import { TaskService } from "./modules/tasks/task-service.js";
@@ -31,6 +34,7 @@ import { registerEquipmentRoutes } from "./routes/equipment.js";
 import { registerHealthRoutes } from "./routes/health.js";
 import { registerHomeRoutes } from "./routes/home.js";
 import { registerLeaderboardRoutes } from "./routes/leaderboard.js";
+import { registerPatrolRoutes } from "./routes/patrol.js";
 import { registerPlayerRoutes } from "./routes/player.js";
 import { registerTaskRoutes } from "./routes/tasks.js";
 
@@ -41,6 +45,7 @@ export interface BuildAppOptions {
   equipmentRepository?: EquipmentRepository;
   arenaRepository?: ArenaRepository;
   leaderboardRepository?: LeaderboardRepository;
+  patrolRepository?: PatrolRepository;
   taskRepository?: TaskRepository;
   now?: () => Date;
 }
@@ -66,6 +71,7 @@ export async function buildApp(options: BuildAppOptions = {}) {
   const equipmentRepository = options.equipmentRepository ?? createPrismaEquipmentRepository(prisma);
   const arenaRepository = options.arenaRepository ?? createPrismaArenaRepository(prisma);
   const leaderboardRepository = options.leaderboardRepository ?? createPrismaLeaderboardRepository(prisma);
+  const patrolRepository = options.patrolRepository ?? createPrismaPatrolRepository(prisma);
   const taskRepository = options.taskRepository ?? createPrismaTaskRepository(prisma);
   const playerService = new PlayerService(playerRepository);
   const homeService = new HomeService(homeRepository, {
@@ -79,6 +85,9 @@ export async function buildApp(options: BuildAppOptions = {}) {
     now: options.now
   });
   const leaderboardService = new LeaderboardService(leaderboardRepository);
+  const patrolService = new PatrolService(patrolRepository, {
+    now: options.now
+  });
   const taskService = new TaskService(taskRepository);
 
   await registerHealthRoutes(app);
@@ -90,6 +99,7 @@ export async function buildApp(options: BuildAppOptions = {}) {
   await registerArenaRoutes(app, arenaService);
   await registerBattleRoutes(app, arenaService);
   await registerLeaderboardRoutes(app, leaderboardService);
+  await registerPatrolRoutes(app, patrolService);
   await registerTaskRoutes(app, taskService);
 
   return app;

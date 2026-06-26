@@ -8,81 +8,113 @@ datasource db {
 }
 
 model Player {
-  id             String   @id @default(cuid())
-  platformOpenId String   @unique
-  nickname       String
-  avatarUrl      String?
-  currentPetId   String?  @unique
-  gold           Int      @default(0)
-  enhanceMaterial Int     @default(0)
-  arenaScore     Int      @default(1000)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id              String   @id @default(cuid())
+  platformOpenId  String   @unique
+  nickname        String
+  avatarUrl       String?
+  currentPetId    String?  @unique
+  gold            Int      @default(0)
+  enhanceMaterial Int      @default(0)
+  arenaScore      Int      @default(1000)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   pets               Pet[]
   equipmentInstances EquipmentInstance[]
   adventureState     AdventureState?
   arenaState         ArenaState?
+  patrolState        PatrolState?
+  patrolEvents       PatrolEvent[]
   taskProgress       TaskProgress[]
   rewardLogs         RewardLog[]
-  attackBattles      BattleRecord[] @relation("BattleAttacker")
-  defenseBattles     BattleRecord[] @relation("BattleDefender")
-  currentPet         Pet?           @relation("CurrentPet", fields: [currentPetId], references: [id])
+  attackBattles      BattleRecord[]      @relation("BattleAttacker")
+  defenseBattles     BattleRecord[]      @relation("BattleDefender")
+  battleReportViews  BattleReportView[]
+  currentPet         Pet?                @relation("CurrentPet", fields: [currentPetId], references: [id])
 }
 
 model Pet {
-  id        String   @id @default(cuid())
-  playerId  String
-  configId  String
-  name      String
-  level     Int      @default(1)
-  exp       Int      @default(0)
-  hp        Int
-  attack    Int
-  defense   Int
-  speed     Int
-  critRate  Float
-  bodyProfile Json
+  id              String   @id @default(cuid())
+  playerId        String
+  configId        String
+  name            String
+  level           Int      @default(1)
+  exp             Int      @default(0)
+  hp              Int
+  attack          Int
+  defense         Int
+  speed           Int
+  critRate        Float
+  bodyProfile     Json
   appearanceSlots Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  player Player @relation(fields: [playerId], references: [id])
+  player           Player  @relation(fields: [playerId], references: [id])
   currentForPlayer Player? @relation("CurrentPet")
 
   @@index([playerId])
 }
 
 model EquipmentInstance {
-  id           String   @id @default(cuid())
-  playerId     String
-  configId     String
-  slot         String
-  equippedSlot String?
-  quality      String
-  enhanceLevel Int      @default(0)
-  isEquipped   Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                       String    @id @default(cuid())
+  playerId                 String
+  configId                 String
+  slot                     String
+  equippedSlot             String?
+  quality                  String
+  enhanceLevel             Int       @default(0)
+  proficiency              Int       @default(0)
+  techniqueTriggerCount    Int       @default(0)
+  lastTechniqueTriggeredAt DateTime?
+  isEquipped               Boolean   @default(false)
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
 
   player Player @relation(fields: [playerId], references: [id])
 
+  @@unique([playerId, equippedSlot])
   @@index([playerId])
   @@index([playerId, isEquipped])
-  @@unique([playerId, equippedSlot])
 }
 
 model AdventureState {
-  id              String   @id @default(cuid())
-  playerId        String   @unique
-  currentStageId  String
-  lastClaimedAt   DateTime @default(now())
-  storedGold      Int      @default(0)
-  storedExp       Int      @default(0)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String   @id @default(cuid())
+  playerId       String   @unique
+  currentStageId String
+  lastClaimedAt  DateTime @default(now())
+  storedGold     Int      @default(0)
+  storedExp      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   player Player @relation(fields: [playerId], references: [id])
+}
+
+model PatrolState {
+  id               String   @id @default(cuid())
+  playerId         String   @unique
+  lastSettledAt    DateTime @default(now())
+  maxRewardMinutes Int      @default(480)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  player Player @relation(fields: [playerId], references: [id])
+}
+
+model PatrolEvent {
+  id         String   @id @default(cuid())
+  playerId   String
+  kind       String
+  title      String
+  text       String
+  rewards    Json
+  happenedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@index([playerId, happenedAt])
 }
 
 model ArenaState {
@@ -112,12 +144,26 @@ model BattleRecord {
   rewards          Json
   createdAt        DateTime @default(now())
 
-  attacker Player @relation("BattleAttacker", fields: [attackerPlayerId], references: [id])
-  defender Player @relation("BattleDefender", fields: [defenderPlayerId], references: [id])
+  attacker Player             @relation("BattleAttacker", fields: [attackerPlayerId], references: [id])
+  defender Player             @relation("BattleDefender", fields: [defenderPlayerId], references: [id])
+  views    BattleReportView[]
 
   @@index([attackerPlayerId])
   @@index([defenderPlayerId])
   @@index([createdAt])
+}
+
+model BattleReportView {
+  id             String   @id @default(cuid())
+  playerId       String
+  battleRecordId String
+  viewedAt       DateTime @default(now())
+
+  player       Player       @relation(fields: [playerId], references: [id])
+  battleRecord BattleRecord @relation(fields: [battleRecordId], references: [id])
+
+  @@unique([playerId, battleRecordId])
+  @@index([playerId, viewedAt])
 }
 
 model TaskProgress {
@@ -143,8 +189,8 @@ model RewardLog {
 
   player Player @relation(fields: [playerId], references: [id])
 
-  @@index([playerId])
   @@unique([source, sourceId, playerId])
+  @@index([playerId])
 }
 
 model ConfigVersion {

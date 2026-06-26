@@ -8,6 +8,10 @@ export interface EquipmentConfig {
   baseStats: Partial<StatBlock>;
   enhanceGrowth: Partial<StatBlock>;
   maxEnhanceLevel: number;
+  enhanceCost: {
+    gold: number;
+    enhanceMaterial: number;
+  };
 }
 
 export const equipmentConfigs: EquipmentConfig[] = [
@@ -18,7 +22,24 @@ export const equipmentConfigs: EquipmentConfig[] = [
     quality: "common",
     baseStats: { attack: 6 },
     enhanceGrowth: { attack: 2 },
-    maxEnhanceLevel: 5
+    maxEnhanceLevel: 5,
+    enhanceCost: {
+      gold: 20,
+      enhanceMaterial: 1
+    }
+  },
+  {
+    id: "training_claws_common",
+    name: "Training Claws",
+    slot: "weapon",
+    quality: "common",
+    baseStats: { attack: 4, speed: 1 },
+    enhanceGrowth: { attack: 1 },
+    maxEnhanceLevel: 5,
+    enhanceCost: {
+      gold: 20,
+      enhanceMaterial: 1
+    }
   },
   {
     id: "straw_hat_common",
@@ -27,6 +48,10 @@ export const equipmentConfigs: EquipmentConfig[] = [
     quality: "common",
     baseStats: { hp: 20, defense: 1 },
     enhanceGrowth: { hp: 8 },
-    maxEnhanceLevel: 5
+    maxEnhanceLevel: 5,
+    enhanceCost: {
+      gold: 20,
+      enhanceMaterial: 1
+    }
   }
 ];

@@ -1,0 +1,45 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="section">
+    <view class="title">Adventure</view>
+    <view class="subtitle">Idle rewards and stage battle</view>
+    <view class="button-row">
+      <button class="secondary" loading="{{loading}}" bindtap="loadStatus">Refresh</button>
+      <button class="primary" loading="{{loading}}" bindtap="claimRewards">Claim</button>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{status}}">
+    <view class="row">
+      <view class="label">Stage</view>
+      <view class="value">{{status.currentStageName}}</view>
+    </view>
+    <view class="row">
+      <view class="label">Elapsed</view>
+      <view class="value">{{status.elapsedMinutes}} min</view>
+    </view>
+    <view class="list-item" wx:for="{{status.claimableRewards}}" wx:key="type">
+      <view class="row">
+        <view class="label">{{item.type}}</view>
+        <view class="value">{{item.amount}}</view>
+      </view>
+    </view>
+    <button class="secondary" loading="{{loading}}" bindtap="challengeBoss">Challenge Boss</button>
+  </view>
+
+  <view class="section" wx:if="{{battle}}">
+    <view class="title">Battle Result</view>
+    <view class="row">
+      <view class="label">Winner</view>
+      <view class="value">{{battle.winner}}</view>
+    </view>
+    <view class="row">
+      <view class="label">Seed</view>
+      <view class="value">{{battle.seed}}</view>
+    </view>
+    <view class="list-item" wx:for="{{battle.events}}" wx:key="round">
+      <view class="mono">{{item.text}}</view>
+    </view>
+  </view>
+</view>

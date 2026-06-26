@@ -112,6 +112,26 @@ export function validateConfigSets(configs: ConfigSets): ConfigValidationResult 
     }
   }
 
+  const equipmentSlots = new Set(["weapon", "head", "body", "accessory"]);
+  const equipmentQualities = new Set(["common", "fine", "rare", "epic"]);
+  for (const equipment of configs.equipment) {
+    if (!equipmentSlots.has(equipment.slot)) {
+      errors.push(`equipment ${equipment.id}.slot must be valid`);
+    }
+    if (!equipmentQualities.has(equipment.quality)) {
+      errors.push(`equipment ${equipment.id}.quality must be valid`);
+    }
+    if (!isPositiveInteger(equipment.maxEnhanceLevel)) {
+      errors.push(`equipment ${equipment.id}.maxEnhanceLevel must be positive`);
+    }
+    if (!Number.isInteger(equipment.enhanceCost.gold) || equipment.enhanceCost.gold < 0) {
+      errors.push(`equipment ${equipment.id}.enhanceCost.gold must be a non-negative integer`);
+    }
+    if (!Number.isInteger(equipment.enhanceCost.enhanceMaterial) || equipment.enhanceCost.enhanceMaterial < 0) {
+      errors.push(`equipment ${equipment.id}.enhanceCost.enhanceMaterial must be a non-negative integer`);
+    }
+  }
+
   const seenStageOrders = new Set<number>();
   for (const stage of configs.stages) {
     if (!isPositiveInteger(stage.order)) errors.push(`stage ${stage.id}.order must be positive`);
@@ -121,6 +141,12 @@ export function validateConfigSets(configs: ConfigSets): ConfigValidationResult 
     if (!isNonNegativeFinite(stage.expPerHour)) errors.push(`stage ${stage.id}.expPerHour must be non-negative`);
     if (!dropPoolIds.has(stage.dropPoolId)) {
       errors.push(`stage ${stage.id} references missing drop pool ${stage.dropPoolId}`);
+    }
+    validateStatBlock(`stage ${stage.id}.boss.stats`, stage.boss.stats, errors);
+    for (const skillId of stage.boss.skills) {
+      if (!skillIds.has(skillId)) {
+        errors.push(`stage ${stage.id}.boss references missing skill ${skillId}`);
+      }
     }
   }
 

@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/adventure/adventure",
+    "pages/equipment/equipment",
+    "pages/arena/arena",
+    "pages/battle-report/battle-report"
+  ],
+  "window": {
+    "navigationBarTitleText": "Buddy Brawl",
+    "navigationBarBackgroundColor": "#111827",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f3f4f6"
+  },
+  "tabBar": {
+    "color": "#6b7280",
+    "selectedColor": "#111827",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "Home"
+      },
+      {
+        "pagePath": "pages/adventure/adventure",
+        "text": "Adventure"
+      },
+      {
+        "pagePath": "pages/equipment/equipment",
+        "text": "Gear"
+      },
+      {
+        "pagePath": "pages/arena/arena",
+        "text": "Arena"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

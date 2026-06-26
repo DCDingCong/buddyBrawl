@@ -1,0 +1,38 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="section">
+    <view class="title">Gear</view>
+    <view class="subtitle">Inventory, equip, and enhance</view>
+    <button class="secondary" loading="{{loading}}" bindtap="loadInventory">Refresh</button>
+  </view>
+
+  <view class="section" wx:if="{{inventory}}">
+    <view class="row">
+      <view class="label">Gold</view>
+      <view class="value">{{inventory.resources.gold}}</view>
+    </view>
+    <view class="row">
+      <view class="label">Materials</view>
+      <view class="value">{{inventory.resources.enhanceMaterial}}</view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{inventory}}">
+    <view class="title">Items</view>
+    <view wx:if="{{!hasItems}}" class="subtitle">No equipment yet</view>
+    <view class="list-item" wx:for="{{inventory.items}}" wx:key="id">
+      <view class="row">
+        <view>
+          <view class="value">{{item.name}}</view>
+          <view class="label">{{item.slot}} / +{{item.enhanceLevel}} / max {{item.maxEnhanceLevel}}</view>
+        </view>
+        <view wx:if="{{item.isEquipped}}" class="value">Equipped</view>
+      </view>
+      <view class="button-row">
+        <button class="secondary" data-id="{{item.id}}" loading="{{loading}}" bindtap="equip">Equip</button>
+        <button class="primary" data-id="{{item.id}}" loading="{{loading}}" bindtap="enhance">Enhance</button>
+      </view>
+    </view>
+  </view>
+</view>

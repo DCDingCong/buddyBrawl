@@ -29,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
+    command: sh -c "pnpm prisma:generate && pnpm dev"
     restart: unless-stopped
     environment:
       NODE_ENV: development

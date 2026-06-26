@@ -211,6 +211,21 @@ export interface HomeResponse {
   tasks: {
     unclaimedCount: number;
   };
+  v02: {
+    statusText: string;
+    recentEvents: PatrolEventView[];
+    primaryAction: {
+      label: "开打" | "去复仇";
+      action: "challenge" | "revenge";
+    };
+    taskButton: {
+      label: "今日任务";
+      action: "open_tasks";
+    };
+    goldSummary: {
+      gold: number;
+    };
+  };
 }
 
 export interface AdventureStatusResponse {

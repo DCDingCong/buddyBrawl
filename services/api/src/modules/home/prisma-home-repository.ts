@@ -1,6 +1,6 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
 import type { HomeRepository, HomeStateRecord } from "./home-repository.js";
-import type { EquipmentQuality, EquipmentSlot } from "@buddy-brawl/shared";
+import type { EquipmentQuality, EquipmentSlot, PatrolEventView, RewardItem } from "@buddy-brawl/shared";
 
 const homePlayerInclude = {
   currentPet: true,
@@ -11,7 +11,13 @@ const homePlayerInclude = {
       isEquipped: true
     }
   },
-  taskProgress: true
+  taskProgress: true,
+  patrolEvents: {
+    orderBy: {
+      happenedAt: "desc"
+    },
+    take: 5
+  }
 } satisfies Prisma.PlayerInclude;
 
 type PrismaHomePlayer = Prisma.PlayerGetPayload<{
@@ -81,6 +87,25 @@ function toHomeStateRecord(player: PrismaHomePlayer): HomeStateRecord {
       taskId: progress.taskId,
       currentCount: progress.currentCount,
       claimed: progress.claimed
-    }))
+    })),
+    patrolEvents: player.patrolEvents.map(toPatrolEventView)
+  };
+}
+
+function toPatrolEventView(event: {
+  id: string;
+  kind: string;
+  title: string;
+  text: string;
+  rewards: Prisma.JsonValue;
+  happenedAt: Date;
+}): PatrolEventView {
+  return {
+    id: event.id,
+    kind: event.kind as PatrolEventView["kind"],
+    title: event.title,
+    text: event.text,
+    rewards: event.rewards as unknown as RewardItem[],
+    happenedAt: event.happenedAt.toISOString()
   };
 }

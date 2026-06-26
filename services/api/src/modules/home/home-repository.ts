@@ -1,4 +1,4 @@
-import type { AppearanceSlots, EquipmentQuality, EquipmentSlot, PandaBodyProfile } from "@buddy-brawl/shared";
+import type { AppearanceSlots, EquipmentQuality, EquipmentSlot, PandaBodyProfile, PatrolEventView } from "@buddy-brawl/shared";
 
 export interface HomePetRecord {
   id: string;
@@ -50,6 +50,7 @@ export interface HomeStateRecord {
   };
   equipment: HomeEquipmentRecord[];
   tasks: HomeTaskProgressRecord[];
+  patrolEvents: PatrolEventView[];
 }
 
 export interface HomeRepository {

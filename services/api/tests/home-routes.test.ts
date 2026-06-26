@@ -108,6 +108,40 @@ describe("home route", () => {
           isEquipped: true
         }
       ],
+      patrolEvents: [
+        {
+          id: "event-1",
+          kind: "ambushed",
+          title: "被人偷袭",
+          text: "熊猫被对手拍了一下，正在等你复仇。",
+          rewards: [],
+          happenedAt: "2026-06-26T08:20:00.000Z"
+        },
+        {
+          id: "event-2",
+          kind: "found_gold",
+          title: "捡到金币",
+          text: "熊猫捡到了一点金币。",
+          rewards: [{ type: "gold", amount: 20 }],
+          happenedAt: "2026-06-26T08:10:00.000Z"
+        },
+        {
+          id: "event-3",
+          kind: "trained",
+          title: "偷偷练功",
+          text: "熊猫偷偷练了一会儿。",
+          rewards: [{ type: "exp", amount: 12 }],
+          happenedAt: "2026-06-26T08:00:00.000Z"
+        },
+        {
+          id: "event-4",
+          kind: "found_gold",
+          title: "捡到金币",
+          text: "这条不应出现在首页 V0.2。",
+          rewards: [{ type: "gold", amount: 5 }],
+          happenedAt: "2026-06-26T07:50:00.000Z"
+        }
+      ],
       tasks: [
         {
           taskId: "daily_view_battle_report",
@@ -201,6 +235,56 @@ describe("home route", () => {
         },
         tasks: {
           unclaimedCount: 1
+        },
+        v02: {
+          statusText: "熊猫被对手拍了一下，正在等你复仇。",
+          recentEvents: [
+            {
+              id: "event-1",
+              kind: "ambushed",
+              title: "被人偷袭",
+              text: "熊猫被对手拍了一下，正在等你复仇。",
+              rewards: [],
+              happenedAt: "2026-06-26T08:20:00.000Z"
+            },
+            {
+              id: "event-2",
+              kind: "found_gold",
+              title: "捡到金币",
+              text: "熊猫捡到了一点金币。",
+              rewards: [
+                {
+                  type: "gold",
+                  amount: 20
+                }
+              ],
+              happenedAt: "2026-06-26T08:10:00.000Z"
+            },
+            {
+              id: "event-3",
+              kind: "trained",
+              title: "偷偷练功",
+              text: "熊猫偷偷练了一会儿。",
+              rewards: [
+                {
+                  type: "exp",
+                  amount: 12
+                }
+              ],
+              happenedAt: "2026-06-26T08:00:00.000Z"
+            }
+          ],
+          primaryAction: {
+            label: "去复仇",
+            action: "revenge"
+          },
+          taskButton: {
+            label: "今日任务",
+            action: "open_tasks"
+          },
+          goldSummary: {
+            gold: 100
+          }
         }
       }
     });
@@ -252,6 +336,7 @@ describe("home route", () => {
         dailyChallengeCount: 0
       },
       equipment: [],
+      patrolEvents: [],
       tasks: []
     });
 
@@ -267,6 +352,10 @@ describe("home route", () => {
     expect(response.json().data.equipped).toEqual([]);
     expect(response.json().data.tasks).toEqual({
       unclaimedCount: 0
+    });
+    expect(response.json().data.v02.primaryAction).toEqual({
+      label: "开打",
+      action: "challenge"
     });
     expect(response.json().data.adventure.claimableRewards).toEqual([
       {

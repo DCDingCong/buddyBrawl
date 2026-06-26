@@ -83,6 +83,33 @@ function toHomeResponse(homeState: HomeStateRecord, now: Date): HomeResponse {
     },
     tasks: {
       unclaimedCount: countUnclaimedTasks(homeState)
+    },
+    v02: toV02Home(homeState)
+  };
+}
+
+function toV02Home(homeState: HomeStateRecord): HomeResponse["v02"] {
+  const recentEvents = homeState.patrolEvents.slice(0, 3);
+  const hasAmbushedEvent = recentEvents.some((event) => event.kind === "ambushed");
+  return {
+    statusText:
+      recentEvents[0]?.text ?? `${homeState.currentPet.name}正在外面巡逻，随时可能惹出新的战报。`,
+    recentEvents,
+    primaryAction: hasAmbushedEvent
+      ? {
+          label: "去复仇",
+          action: "revenge"
+        }
+      : {
+          label: "开打",
+          action: "challenge"
+        },
+    taskButton: {
+      label: "今日任务",
+      action: "open_tasks"
+    },
+    goldSummary: {
+      gold: homeState.player.gold
     }
   };
 }

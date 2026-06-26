@@ -3,6 +3,8 @@ import type {
   EquipmentQuality,
   EquipmentSlot,
   EquipmentSnapshot,
+  AppearanceSlots,
+  PandaBodyProfile,
   PetSnapshot,
   RewardItem,
   StatBlock
@@ -41,6 +43,8 @@ export interface CurrentPetView {
   name: string;
   level: number;
   exp: number;
+  bodyProfile: PandaBodyProfile;
+  appearanceSlots: AppearanceSlots;
   stats: StatBlock;
 }
 
@@ -64,6 +68,18 @@ export interface DevLoginResponse {
   taskProgressCount: number;
 }
 
+export interface WechatPhoneLoginRequest {
+  phoneCode?: string;
+  nickname?: string;
+  avatarUrl?: string;
+}
+
+export interface WechatPhoneLoginResponse extends DevLoginResponse {
+  nextAction: "enter_game" | "complete_profile";
+  playerComplete: boolean;
+  maskedPhoneNumber: string;
+}
+
 export interface EquippedItemView {
   id: string;
   configId: string;
@@ -77,6 +93,21 @@ export interface EquippedItemView {
 export interface InventoryEquipmentItemView extends EquippedItemView {
   isEquipped: boolean;
   maxEnhanceLevel: number;
+  enhanceCost: {
+    gold: number;
+    requiredItems: Array<{
+      itemConfigId: string;
+      amount: number;
+    }>;
+    specialCurrency: Array<{
+      currencyId: string;
+      amount: number;
+    }>;
+    paidCurrency: Array<{
+      currencyId: string;
+      amount: number;
+    }>;
+  };
 }
 
 export interface EquipmentInventoryResponse {
@@ -169,6 +200,10 @@ export interface HomeResponse {
   arena: {
     score: number;
     dailyChallengeCount: number;
+  };
+  resources: {
+    gold: number;
+    enhanceMaterial: number;
   };
   tasks: {
     unclaimedCount: number;

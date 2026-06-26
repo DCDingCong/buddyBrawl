@@ -76,11 +76,8 @@ export class EquipmentService {
       return badRequest("ENHANCE_LEVEL_LIMIT", "Equipment is already at max enhance level.");
     }
 
-    if (
-      state.player.gold < config.enhanceCost.gold ||
-      state.player.enhanceMaterial < config.enhanceCost.enhanceMaterial
-    ) {
-      return badRequest("INSUFFICIENT_RESOURCES", "Not enough resources to enhance this equipment.");
+    if (state.player.gold < config.enhanceCost.gold) {
+      return badRequest("INSUFFICIENT_RESOURCES", "金币不足，暂时无法强化这件装备。");
     }
 
     const updatedState = await this.equipmentRepository.enhance({
@@ -117,6 +114,7 @@ function toEquipmentItemView(equipment: EquipmentRecord): InventoryEquipmentItem
     enhanceLevel: equipment.enhanceLevel,
     isEquipped: equipment.isEquipped,
     maxEnhanceLevel: config.maxEnhanceLevel,
+    enhanceCost: config.enhanceCost,
     stats: calculateEquipmentStats(config.baseStats, config.enhanceGrowth, equipment.enhanceLevel)
   };
 }

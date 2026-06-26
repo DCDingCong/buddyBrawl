@@ -1,35 +1,27 @@
 <view class="page">
   <view wx:if="{{error}}" class="error">{{error}}</view>
 
-  <view class="section">
-    <view class="title">Battle Report</view>
-    <view class="subtitle mono">{{battleId}}</view>
-    <button class="secondary" loading="{{loading}}" bindtap="loadReport">Refresh</button>
+  <view class="hero">
+    <view class="title">战报详情</view>
+    <view class="subtitle">回看这场乱斗的关键回合。</view>
   </view>
 
   <view class="section" wx:if="{{report}}">
+    <view class="title">{{resultText}}</view>
     <view class="row">
-      <view class="label">Winner</view>
-      <view class="value">{{report.winner}}</view>
-    </view>
-    <view class="row">
-      <view class="label">Seed</view>
-      <view class="value">{{report.seed}}</view>
-    </view>
-    <view class="row">
-      <view class="label">Attacker</view>
+      <view class="label">我方</view>
       <view class="value">{{report.attacker.petName}} Lv.{{report.attacker.level}}</view>
     </view>
     <view class="row">
-      <view class="label">Defender</view>
+      <view class="label">对手</view>
       <view class="value">{{report.defender.petName}} Lv.{{report.defender.level}}</view>
     </view>
   </view>
 
   <view class="section" wx:if="{{report}}">
-    <view class="title">Rounds</view>
-    <view class="list-item" wx:for="{{report.events}}" wx:key="round">
-      <view class="mono">{{item.text}}</view>
+    <view class="title">回合记录</view>
+    <view class="list-item" wx:for="{{roundTexts}}" wx:key="*this">
+      <view class="subtitle">{{item}}</view>
     </view>
   </view>
 </view>

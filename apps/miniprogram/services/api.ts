@@ -1,6 +1,6 @@
-const API_BASE_URL_KEY = "buddy_api_base_url";
 const TOKEN_KEY = "buddy_token";
 const DEFAULT_API_BASE_URL = "http://127.0.0.1:3000";
+const REQUEST_TIMEOUT_MS = 10000;
 
 type HttpMethod = "GET" | "POST";
 
@@ -20,11 +20,7 @@ interface ApiFailure {
 type ApiResult<T> = ApiSuccess<T> | ApiFailure;
 
 export function getApiBaseUrl(): string {
-  return wx.getStorageSync(API_BASE_URL_KEY) || DEFAULT_API_BASE_URL;
-}
-
-export function setApiBaseUrl(baseUrl: string): void {
-  wx.setStorageSync(API_BASE_URL_KEY, baseUrl.trim() || DEFAULT_API_BASE_URL);
+  return DEFAULT_API_BASE_URL;
 }
 
 export function getToken(): string {
@@ -41,39 +37,31 @@ export function clearToken(): void {
 
 export function request<T>(method: HttpMethod, path: string, data?: unknown): Promise<T> {
   const token = getToken();
+  const url = `${getApiBaseUrl()}${path}`;
 
   return new Promise<T>((resolve, reject) => {
     wx.request({
-      url: `${getApiBaseUrl()}${path}`,
+      url,
       method,
       data,
-      header: token
-        ? {
-            Authorization: `Bearer ${token}`
-          }
-        : {},
+      timeout: REQUEST_TIMEOUT_MS,
+      header: {
+        "content-type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
       success(response) {
         const body = response.data as ApiResult<T> | undefined;
         if (response.statusCode >= 400 || !body || !body.ok) {
-          const message = body && !body.ok ? body.error.message : `HTTP ${response.statusCode}`;
+          const message = body && !body.ok ? body.error.message : "网络开小差了，请稍后再试。";
           reject(new Error(message));
           return;
         }
 
         resolve(body.data);
       },
-      fail(error) {
-        reject(new Error(error.errMsg));
+      fail(error: WechatMiniprogram.GeneralCallbackResult) {
+        reject(new Error(`无法连接服务器，请检查网络后重试。${url} ${error.errMsg}`));
       }
     });
   });
-}
-
-export async function devLogin() {
-  const data = await request<{ token: string }>("POST", "/auth/dev-login", {
-    devOpenId: "miniprogram-local-dev",
-    nickname: "Mini Debugger"
-  });
-  setToken(data.token);
-  return data;
 }

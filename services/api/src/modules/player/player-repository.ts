@@ -1,3 +1,5 @@
+import type { AppearanceSlots, PandaBodyProfile } from "@buddy-brawl/shared";
+
 export interface InitializedPetRecord {
   id: string;
   playerId: string;
@@ -10,6 +12,8 @@ export interface InitializedPetRecord {
   defense: number;
   speed: number;
   critRate: number;
+  bodyProfile: PandaBodyProfile;
+  appearanceSlots: AppearanceSlots;
 }
 
 export interface InitializedPlayerRecord {

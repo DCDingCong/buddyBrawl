@@ -21,14 +21,14 @@ export interface StageConfig {
 export const stageConfigs: StageConfig[] = [
   {
     id: "bamboo_forest_1",
-    name: "Bamboo Forest 1",
+    name: "竹林第一段",
     order: 1,
     goldPerHour: 40,
     expPerHour: 24,
     dropPoolId: "starter_equipment",
     boss: {
       id: "bamboo_forest_bruiser",
-      name: "Bamboo Forest Bruiser",
+      name: "竹林蛮力熊",
       level: 1,
       stats: {
         hp: 80,

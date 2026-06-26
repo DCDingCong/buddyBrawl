@@ -1,7 +1,7 @@
 page {
   min-height: 100%;
-  background: #f3f4f6;
-  color: #111827;
+  background: #f4f1e8;
+  color: #243528;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -11,11 +11,19 @@ page {
   box-sizing: border-box;
 }
 
+.hero {
+  margin-bottom: 24rpx;
+  padding: 32rpx 28rpx;
+  border-radius: 8rpx;
+  background: #243528;
+  color: #fffdf7;
+}
+
 .section {
   margin-bottom: 24rpx;
   padding: 24rpx;
-  background: #ffffff;
-  border: 1rpx solid #e5e7eb;
+  background: #fffdf7;
+  border: 1rpx solid #ded7c8;
   border-radius: 8rpx;
 }
 
@@ -27,8 +35,13 @@ page {
 
 .subtitle {
   margin-top: 8rpx;
-  color: #6b7280;
+  color: #7a7165;
   font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.hero .subtitle {
+  color: #d9e4d2;
 }
 
 .row {
@@ -40,15 +53,19 @@ page {
 }
 
 .label {
-  color: #6b7280;
+  color: #7a7165;
   font-size: 24rpx;
 }
 
 .value {
-  color: #111827;
+  color: #243528;
   font-size: 26rpx;
   font-weight: 600;
   text-align: right;
+}
+
+.hero .value {
+  color: #fffdf7;
 }
 
 .button-row {
@@ -64,47 +81,41 @@ button {
 }
 
 .primary {
-  background: #111827;
-  color: #ffffff;
+  background: #243528;
+  color: #fffdf7;
 }
 
 .secondary {
-  background: #e5e7eb;
-  color: #111827;
-}
-
-.input {
-  height: 72rpx;
-  margin-top: 16rpx;
-  padding: 0 20rpx;
-  border: 1rpx solid #d1d5db;
-  border-radius: 8rpx;
-  background: #ffffff;
-  font-size: 26rpx;
+  background: #e8dfcf;
+  color: #243528;
 }
 
 .error {
   margin-bottom: 20rpx;
   padding: 16rpx;
-  border: 1rpx solid #fecaca;
+  border: 1rpx solid #e9aaa1;
   border-radius: 8rpx;
-  background: #fef2f2;
-  color: #b91c1c;
+  background: #fff1ef;
+  color: #a93a30;
   font-size: 24rpx;
 }
 
 .list-item {
   padding: 18rpx 0;
-  border-top: 1rpx solid #e5e7eb;
+  border-top: 1rpx solid #ded7c8;
 }
 
 .list-item:first-child {
   border-top: 0;
 }
 
-.mono {
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+.pill {
+  display: inline-block;
+  margin-right: 12rpx;
+  margin-top: 10rpx;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: #e8dfcf;
+  color: #243528;
   font-size: 22rpx;
-  white-space: pre-wrap;
-  word-break: break-all;
 }

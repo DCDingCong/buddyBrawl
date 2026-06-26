@@ -12,18 +12,18 @@ export interface SkillConfig {
 export const skillConfigs: SkillConfig[] = [
   {
     id: "basic_strike",
-    name: "Strike",
+    name: "普通攻击",
     trigger: "basic",
     cooldownRounds: 0,
     damageMultiplier: 1,
-    reportTemplate: "{actor} strikes {target} for {damage} damage."
+    reportTemplate: "{actor}攻击{target}，造成 {damage} 点伤害。"
   },
   {
     id: "bamboo_combo",
-    name: "Bamboo Combo",
+    name: "竹影连击",
     trigger: "cooldown",
     cooldownRounds: 3,
     damageMultiplier: 1.6,
-    reportTemplate: "{actor} uses Bamboo Combo for {damage} damage."
+    reportTemplate: "{actor}使出竹影连击，造成 {damage} 点伤害。"
   }
 ];

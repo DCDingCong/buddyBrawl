@@ -60,7 +60,9 @@ describe("home route", () => {
         id: "player-1",
         nickname: "Tester",
         avatarUrl: "https://example.test/avatar.png",
-        arenaScore: 1015
+        arenaScore: 1015,
+        gold: 100,
+        enhanceMaterial: 3
       },
       currentPet: {
         id: "pet-1",
@@ -68,6 +70,20 @@ describe("home route", () => {
         name: "Bamboo Fist Panda",
         level: 2,
         exp: 15,
+        bodyProfile: {
+          heightScale: 0.96,
+          build: "round",
+          headRatio: 0.34,
+          posture: "relaxed",
+          tag: "圆润"
+        },
+        appearanceSlots: {
+          head: "bamboo_leaf",
+          facePattern: "sunny_eye",
+          bodyPattern: "warm_stripe",
+          back: null,
+          handheld: null
+        },
         hp: 134,
         attack: 21,
         defense: 10,
@@ -125,6 +141,20 @@ describe("home route", () => {
           name: "Bamboo Fist Panda",
           level: 2,
           exp: 15,
+          bodyProfile: {
+            heightScale: 0.96,
+            build: "round",
+            headRatio: 0.34,
+            posture: "relaxed",
+            tag: "圆润"
+          },
+          appearanceSlots: {
+            head: "bamboo_leaf",
+            facePattern: "sunny_eye",
+            bodyPattern: "warm_stripe",
+            back: null,
+            handheld: null
+          },
           stats: {
             hp: 134,
             attack: 21,
@@ -135,7 +165,7 @@ describe("home route", () => {
         },
         adventure: {
           currentStageId: "bamboo_forest_1",
-          currentStageName: "Bamboo Forest 1",
+          currentStageName: "竹林第一段",
           claimableRewards: [
             {
               type: "gold",
@@ -152,7 +182,7 @@ describe("home route", () => {
           {
             id: "equipment-1",
             configId: "bamboo_staff_common",
-            name: "Bamboo Staff",
+            name: "青竹长棍",
             slot: "weapon",
             quality: "common",
             enhanceLevel: 1,
@@ -164,6 +194,10 @@ describe("home route", () => {
         arena: {
           score: 1015,
           dailyChallengeCount: 2
+        },
+        resources: {
+          gold: 100,
+          enhanceMaterial: 3
         },
         tasks: {
           unclaimedCount: 1
@@ -179,7 +213,9 @@ describe("home route", () => {
       player: {
         id: "player-2",
         nickname: "New Player",
-        arenaScore: 1000
+        arenaScore: 1000,
+        gold: 0,
+        enhanceMaterial: 0
       },
       currentPet: {
         id: "pet-2",
@@ -187,6 +223,20 @@ describe("home route", () => {
         name: "Bamboo Fist Panda",
         level: 1,
         exp: 0,
+        bodyProfile: {
+          heightScale: 1,
+          build: "balanced",
+          headRatio: 0.32,
+          posture: "steady",
+          tag: "稳健"
+        },
+        appearanceSlots: {
+          head: null,
+          facePattern: null,
+          bodyPattern: null,
+          back: null,
+          handheld: null
+        },
         hp: 120,
         attack: 18,
         defense: 8,

@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="hero">
+    <view class="title">创建你的熊猫</view>
+    <view class="subtitle">系统已经为你准备好初始体型、花纹和第一套装备。</view>
+  </view>
+
+  <view class="section">
+    <view class="row">
+      <view class="label">默认昵称</view>
+      <view class="value">{{pandaName}}</view>
+    </view>
+    <view class="subtitle">首版本会自动创建完整角色，后续会开放更多局部装饰选择。</view>
+    <button class="primary" bindtap="enterGame">进入竹林</button>
+  </view>
+</view>

@@ -1,46 +1,46 @@
-import { devLogin, getApiBaseUrl, getToken, request, setApiBaseUrl } from "../../services/api";
+import { getToken, request } from "../../services/api";
+import { loginWithWechatPhone } from "../../services/auth";
+import { bodyBuildName, postureName, rewardName } from "../../services/format";
 
 Page({
   data: {
-    apiBaseUrl: getApiBaseUrl(),
-    token: getToken(),
-    tokenText: getToken() || "not logged in",
     loading: false,
     error: "",
-    home: null as any
+    loggedIn: Boolean(getToken()),
+    home: null as any,
+    rewardsText: "",
+    nextAction: "领取挂机收益",
+    bodyTags: [] as string[]
   },
 
   onShow() {
     this.setData({
-      apiBaseUrl: getApiBaseUrl(),
-      token: getToken(),
-      tokenText: getToken() || "not logged in"
+      loggedIn: Boolean(getToken())
     });
     if (getToken()) {
       this.loadHome();
     }
   },
 
-  onApiBaseUrlInput(event: WechatMiniprogram.Input) {
-    this.setData({
-      apiBaseUrl: event.detail.value
-    });
-  },
-
-  saveApiBaseUrl() {
-    setApiBaseUrl(this.data.apiBaseUrl);
-    this.setData({
-      apiBaseUrl: getApiBaseUrl(),
-      error: ""
-    });
-  },
-
-  async login() {
-    await this.run(async () => {
-      await devLogin();
+  async startGame(event: WechatMiniprogram.ButtonGetPhoneNumber) {
+    if (event.detail.errMsg && !event.detail.errMsg.includes("ok")) {
       this.setData({
-        token: getToken(),
-        tokenText: getToken() || "not logged in"
+        error: "需要授权手机号后才能进入竹林。"
+      });
+      return;
+    }
+
+    await this.run(async () => {
+      const result = await loginWithWechatPhone(event.detail.code);
+      if (result.nextAction === "complete_profile") {
+        wx.navigateTo({
+          url: "/pages/profile-setup/profile-setup"
+        });
+        return;
+      }
+
+      this.setData({
+        loggedIn: true
       });
       await this.loadHome();
     });
@@ -48,9 +48,16 @@ Page({
 
   async loadHome() {
     await this.run(async () => {
-      const home = await request("GET", "/home");
+      const home = await request<any>("GET", "/home");
+      const rewardsText = home.adventure.claimableRewards
+        .map((reward: { type: string; amount: number }) => `${rewardName(reward.type)} ${reward.amount}`)
+        .join(" / ");
+      const bodyProfile = home.currentPet.bodyProfile;
       this.setData({
-        home
+        home,
+        rewardsText,
+        nextAction: home.tasks.unclaimedCount > 0 ? "领取任务奖励" : "领取挂机收益",
+        bodyTags: [bodyProfile.tag, bodyBuildName(bodyProfile.build), postureName(bodyProfile.posture)]
       });
     });
   },

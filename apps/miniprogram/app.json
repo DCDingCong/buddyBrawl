@@ -1,38 +1,39 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/profile-setup/profile-setup",
     "pages/adventure/adventure",
     "pages/equipment/equipment",
     "pages/arena/arena",
     "pages/battle-report/battle-report"
   ],
   "window": {
-    "navigationBarTitleText": "Buddy Brawl",
-    "navigationBarBackgroundColor": "#111827",
+    "navigationBarTitleText": "熊猫乱斗",
+    "navigationBarBackgroundColor": "#243528",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f3f4f6"
+    "backgroundColor": "#f4f1e8"
   },
   "tabBar": {
-    "color": "#6b7280",
-    "selectedColor": "#111827",
-    "backgroundColor": "#ffffff",
+    "color": "#7a7165",
+    "selectedColor": "#243528",
+    "backgroundColor": "#fffdf7",
     "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "Home"
+        "text": "主页"
       },
       {
         "pagePath": "pages/adventure/adventure",
-        "text": "Adventure"
+        "text": "冒险"
       },
       {
         "pagePath": "pages/equipment/equipment",
-        "text": "Gear"
+        "text": "装备"
       },
       {
         "pagePath": "pages/arena/arena",
-        "text": "Arena"
+        "text": "竞技"
       }
     ]
   },

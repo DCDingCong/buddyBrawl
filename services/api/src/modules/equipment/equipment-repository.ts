@@ -29,7 +29,18 @@ export interface EquipmentEnhanceInput {
   equipmentId: string;
   cost: {
     gold: number;
-    enhanceMaterial: number;
+    requiredItems: Array<{
+      itemConfigId: string;
+      amount: number;
+    }>;
+    specialCurrency: Array<{
+      currencyId: string;
+      amount: number;
+    }>;
+    paidCurrency: Array<{
+      currencyId: string;
+      amount: number;
+    }>;
   };
 }
 

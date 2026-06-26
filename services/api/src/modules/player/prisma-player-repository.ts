@@ -1,5 +1,6 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { equipmentConfigs, petConfigs, stageConfigs, taskConfigs } from "@buddy-brawl/configs";
+import type { AppearanceSlots, PandaBodyProfile } from "@buddy-brawl/shared";
 import type {
   CreateInitializedPlayerInput,
   InitializedPlayerRecord,
@@ -69,7 +70,9 @@ export function createPrismaPlayerRepository(prisma: PrismaClient): PlayerReposi
             attack: defaultPet.baseStats.attack,
             defense: defaultPet.baseStats.defense,
             speed: defaultPet.baseStats.speed,
-            critRate: defaultPet.baseStats.critRate
+            critRate: defaultPet.baseStats.critRate,
+            bodyProfile: createDefaultBodyProfile(input.openId) as unknown as Prisma.InputJsonValue,
+            appearanceSlots: createDefaultAppearanceSlots() as unknown as Prisma.InputJsonValue
           }
         });
 
@@ -167,7 +170,9 @@ function toInitializedPlayerRecord(player: PrismaInitializedPlayer): Initialized
       attack: player.currentPet.attack,
       defense: player.currentPet.defense,
       speed: player.currentPet.speed,
-      critRate: player.currentPet.critRate
+      critRate: player.currentPet.critRate,
+      bodyProfile: player.currentPet.bodyProfile as unknown as PandaBodyProfile,
+      appearanceSlots: player.currentPet.appearanceSlots as unknown as AppearanceSlots
     },
     adventureState: {
       currentStageId: player.adventureState.currentStageId
@@ -177,5 +182,36 @@ function toInitializedPlayerRecord(player: PrismaInitializedPlayer): Initialized
       dailyChallengeCount: player.arenaState.dailyChallengeCount
     },
     taskProgressCount: player.taskProgress.length
+  };
+}
+
+function createDefaultBodyProfile(seedText: string): PandaBodyProfile {
+  const seed = Array.from(seedText).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const builds: PandaBodyProfile["build"][] = ["slim", "balanced", "round"];
+  const postures: PandaBodyProfile["posture"][] = ["steady", "relaxed", "brave"];
+  const build = builds[seed % builds.length]!;
+  const posture = postures[seed % postures.length]!;
+  const tagByBuild: Record<PandaBodyProfile["build"], string> = {
+    slim: "灵巧",
+    balanced: "稳健",
+    round: "圆润"
+  };
+
+  return {
+    heightScale: Number((0.94 + (seed % 13) / 100).toFixed(2)),
+    build,
+    headRatio: Number((0.31 + (seed % 5) / 100).toFixed(2)),
+    posture,
+    tag: tagByBuild[build]
+  };
+}
+
+function createDefaultAppearanceSlots(): AppearanceSlots {
+  return {
+    head: "bamboo_leaf",
+    facePattern: "sunny_eye",
+    bodyPattern: "warm_stripe",
+    back: null,
+    handheld: null
   };
 }

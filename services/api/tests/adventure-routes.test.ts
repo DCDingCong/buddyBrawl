@@ -136,7 +136,7 @@ describe("adventure routes", () => {
       ok: true,
       data: {
         currentStageId: "bamboo_forest_1",
-        currentStageName: "Bamboo Forest 1",
+        currentStageName: "竹林第一段",
         elapsedMinutes: 150,
         claimableRewards: [
           {
@@ -256,7 +256,7 @@ describe("adventure routes", () => {
         critRate: 0.08
       }
     });
-    expect(response.json().data.defender.petName).toBe("Bamboo Forest Bruiser");
+    expect(response.json().data.defender.petName).toBe("竹林蛮力熊");
     expect(response.json().data.events.length).toBeGreaterThan(0);
 
     await app.close();

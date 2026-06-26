@@ -1,11 +1,14 @@
 import { request } from "../../services/api";
+import { battleEventText, winnerText } from "../../services/format";
 
 Page({
   data: {
     loading: false,
     error: "",
     battleId: "",
-    report: null as any
+    report: null as any,
+    resultText: "",
+    roundTexts: [] as string[]
   },
 
   onLoad(query: { battleId?: string }) {
@@ -20,15 +23,19 @@ Page({
   async loadReport(battleId = this.data.battleId) {
     if (!battleId) {
       this.setData({
-        error: "battleId is required."
+        error: "没有找到这场战报。"
       });
       return;
     }
 
     await this.run(async () => {
-      const report = await request("GET", `/battles/${battleId}`);
+      const report = await request<any>("GET", `/battles/${battleId}`);
       this.setData({
-        report
+        report,
+        resultText: winnerText(report.winner),
+        roundTexts: report.events.map((event: { round: number; actor: string; damage: number; isCritical?: boolean }) =>
+          `第 ${event.round} 回合：${battleEventText(event)}`
+        )
       });
     });
   },

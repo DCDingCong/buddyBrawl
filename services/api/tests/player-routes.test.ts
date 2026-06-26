@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { taskConfigs } from "@buddy-brawl/configs";
 import { buildApp } from "../src/app.js";
 import type {
+  CreateInitializedPlayerInput,
   InitializedPlayerRecord,
   PlayerRepository
 } from "../src/modules/player/player-repository.js";
@@ -21,11 +22,7 @@ class MemoryPlayerRepository implements PlayerRepository {
     return this.playersById.get(playerId) ?? null;
   }
 
-  async createInitializedPlayer(input: {
-    openId: string;
-    nickname: string;
-    avatarUrl?: string;
-  }): Promise<InitializedPlayerRecord> {
+  async createInitializedPlayer(input: CreateInitializedPlayerInput): Promise<InitializedPlayerRecord> {
     const id = `player-${this.nextId++}`;
     const petId = `pet-${this.nextId++}`;
     const player: InitializedPlayerRecord = {
@@ -45,7 +42,21 @@ class MemoryPlayerRepository implements PlayerRepository {
         attack: 18,
         defense: 8,
         speed: 10,
-        critRate: 0.08
+        critRate: 0.08,
+        bodyProfile: {
+          heightScale: 1.02,
+          build: "balanced",
+          headRatio: 0.32,
+          posture: "steady",
+          tag: "steady"
+        },
+        appearanceSlots: {
+          head: "bamboo_leaf",
+          facePattern: "sunny_eye",
+          bodyPattern: "warm_stripe",
+          back: null,
+          handheld: null
+        }
       },
       adventureState: {
         currentStageId: "bamboo_forest_1"
@@ -99,7 +110,6 @@ describe("player initialization routes", () => {
         player: {
           id: "player-1",
           nickname: "Tester",
-          avatarUrl: undefined,
           arenaScore: 1000
         },
         currentPet: {
@@ -108,6 +118,20 @@ describe("player initialization routes", () => {
           name: "Bamboo Fist Panda",
           level: 1,
           exp: 0,
+          bodyProfile: {
+            heightScale: 1.02,
+            build: "balanced",
+            headRatio: 0.32,
+            posture: "steady",
+            tag: "steady"
+          },
+          appearanceSlots: {
+            head: "bamboo_leaf",
+            facePattern: "sunny_eye",
+            bodyPattern: "warm_stripe",
+            back: null,
+            handheld: null
+          },
           stats: {
             hp: 120,
             attack: 18,
@@ -126,6 +150,54 @@ describe("player initialization routes", () => {
         taskProgressCount: taskConfigs.length
       }
     });
+
+    await app.close();
+  });
+
+  test("wechat phone login returns a token and the server-decided next action", async () => {
+    const app = await createTestApp();
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/auth/wechat-phone",
+      payload: {
+        phoneCode: "mock-phone-code-13800138000",
+        nickname: "Wechat Player"
+      }
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data).toMatchObject({
+      token: "player-1",
+      nextAction: "enter_game",
+      playerComplete: true,
+      maskedPhoneNumber: "138****8000",
+      player: {
+        nickname: "Wechat Player"
+      },
+      currentPet: {
+        name: "Bamboo Fist Panda",
+        bodyProfile: {
+          tag: "steady"
+        },
+        appearanceSlots: {
+          head: "bamboo_leaf"
+        }
+      }
+    });
+
+    const repeat = await app.inject({
+      method: "POST",
+      url: "/auth/wechat-phone",
+      payload: {
+        phoneCode: "mock-phone-code-13800138000",
+        nickname: "Other Name"
+      }
+    });
+
+    expect(repeat.statusCode).toBe(200);
+    expect(repeat.json().data.player.id).toBe("player-1");
+    expect(repeat.json().data.player.nickname).toBe("Wechat Player");
 
     await app.close();
   });
@@ -206,6 +278,20 @@ describe("player initialization routes", () => {
       name: "Bamboo Fist Panda",
       level: 1,
       exp: 0,
+      bodyProfile: {
+        heightScale: 1.02,
+        build: "balanced",
+        headRatio: 0.32,
+        posture: "steady",
+        tag: "steady"
+      },
+      appearanceSlots: {
+        head: "bamboo_leaf",
+        facePattern: "sunny_eye",
+        bodyPattern: "warm_stripe",
+        back: null,
+        handheld: null
+      },
       stats: {
         hp: 120,
         attack: 18,

@@ -62,9 +62,6 @@ export function createPrismaEquipmentRepository(prisma: PrismaClient): Equipment
           data: {
             gold: {
               decrement: input.cost.gold
-            },
-            enhanceMaterial: {
-              decrement: input.cost.enhanceMaterial
             }
           }
         });

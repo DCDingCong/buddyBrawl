@@ -1,11 +1,24 @@
 import { request } from "../../services/api";
+import { qualityName, slotName } from "../../services/format";
+
+function mapItem(item: any) {
+  return {
+    ...item,
+    slotText: slotName(item.slot),
+    qualityText: qualityName(item.quality),
+    statusText: item.isEquipped ? "已穿戴" : "可穿戴",
+    costText: `强化消耗 ${item.enhanceCost.gold} 金币`,
+    canEnhance: item.enhanceLevel < item.maxEnhanceLevel
+  };
+}
 
 Page({
   data: {
     loading: false,
     error: "",
-    hasItems: false,
-    inventory: null as any
+    inventory: null as any,
+    items: [] as any[],
+    hasItems: false
   },
 
   onShow() {
@@ -14,37 +27,41 @@ Page({
 
   async loadInventory() {
     await this.run(async () => {
-      const inventory = await request("GET", "/inventory/equipment");
-      this.setData({
-        inventory,
-        hasItems: inventory.items.length > 0
-      });
+      const inventory = await request<any>("GET", "/inventory/equipment");
+      this.setInventory(inventory);
     });
   },
 
   async equip(event: WechatMiniprogram.TouchEvent) {
     const equipmentId = event.currentTarget.dataset.id;
     await this.run(async () => {
-      const inventory = await request("POST", "/equipment/equip", {
+      const inventory = await request<any>("POST", "/equipment/equip", {
         equipmentId
       });
-      this.setData({
-        inventory,
-        hasItems: inventory.items.length > 0
-      });
+      this.setInventory(inventory);
     });
   },
 
   async enhance(event: WechatMiniprogram.TouchEvent) {
     const equipmentId = event.currentTarget.dataset.id;
     await this.run(async () => {
-      const inventory = await request("POST", "/equipment/enhance", {
+      const inventory = await request<any>("POST", "/equipment/enhance", {
         equipmentId
       });
-      this.setData({
-        inventory,
-        hasItems: inventory.items.length > 0
+      this.setInventory(inventory);
+      wx.showToast({
+        title: "强化成功",
+        icon: "success"
       });
+    });
+  },
+
+  setInventory(inventory: any) {
+    const items = inventory.items.map(mapItem);
+    this.setData({
+      inventory,
+      items,
+      hasItems: items.length > 0
     });
   },
 

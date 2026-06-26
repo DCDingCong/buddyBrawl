@@ -56,6 +56,8 @@ function toHomeResponse(homeState: HomeStateRecord, now: Date): HomeResponse {
       name: homeState.currentPet.name,
       level: homeState.currentPet.level,
       exp: homeState.currentPet.exp,
+      bodyProfile: homeState.currentPet.bodyProfile,
+      appearanceSlots: homeState.currentPet.appearanceSlots,
       stats: {
         hp: homeState.currentPet.hp,
         attack: homeState.currentPet.attack,
@@ -74,6 +76,10 @@ function toHomeResponse(homeState: HomeStateRecord, now: Date): HomeResponse {
     arena: {
       score: homeState.arenaState.score,
       dailyChallengeCount: homeState.arenaState.dailyChallengeCount
+    },
+    resources: {
+      gold: homeState.player.gold,
+      enhanceMaterial: homeState.player.enhanceMaterial
     },
     tasks: {
       unclaimedCount: countUnclaimedTasks(homeState)

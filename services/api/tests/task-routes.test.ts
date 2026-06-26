@@ -192,7 +192,7 @@ describe("task routes", () => {
     expect(response.json().data.tasks).toEqual([
       {
         taskId: "daily_login",
-        name: "Log in once",
+        name: "每日进入游戏",
         type: "login",
         currentCount: 1,
         targetCount: 1,
@@ -207,7 +207,7 @@ describe("task routes", () => {
       },
       {
         taskId: "first_claim_adventure",
-        name: "Claim adventure rewards once",
+        name: "领取一次冒险收益",
         type: "claim_adventure",
         currentCount: 1,
         targetCount: 1,
@@ -222,7 +222,7 @@ describe("task routes", () => {
       },
       {
         taskId: "first_enhance_equipment",
-        name: "Enhance equipment once",
+        name: "强化一次装备",
         type: "enhance_equipment",
         currentCount: 0,
         targetCount: 1,
@@ -237,7 +237,7 @@ describe("task routes", () => {
       },
       {
         taskId: "first_arena_challenge",
-        name: "Complete one arena challenge",
+        name: "完成一次竞技挑战",
         type: "arena_challenge",
         currentCount: 0,
         targetCount: 1,

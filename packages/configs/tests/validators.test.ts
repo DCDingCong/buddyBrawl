@@ -138,4 +138,17 @@ describe("validateConfigs", () => {
     expect(result.errors).toContain("task first_claim_adventure.targetCount must be positive");
     expect(result.errors).toContain("task first_claim_adventure reward amount must be positive");
   });
+
+  it("accepts first-version gold-only enhancement costs with extension slots", () => {
+    expect(equipmentConfigs[0]?.enhanceCost).toEqual({
+      gold: 20,
+      requiredItems: [],
+      specialCurrency: [],
+      paidCurrency: []
+    });
+    expect(validateConfigs()).toEqual({
+      ok: true,
+      errors: []
+    });
+  });
 });

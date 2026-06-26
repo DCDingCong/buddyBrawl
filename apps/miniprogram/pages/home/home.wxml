@@ -1,50 +1,56 @@
 <view class="page">
   <view wx:if="{{error}}" class="error">{{error}}</view>
 
-  <view class="section">
-    <view class="title">Buddy Brawl</view>
-    <view class="subtitle">Local API debug entry</view>
-    <input class="input" value="{{apiBaseUrl}}" bindinput="onApiBaseUrlInput" />
-    <view class="button-row">
-      <button class="secondary" bindtap="saveApiBaseUrl">Save API</button>
-      <button class="primary" loading="{{loading}}" bindtap="login">Dev Login</button>
-    </view>
-    <view class="subtitle mono">Token: {{tokenText}}</view>
+  <view wx:if="{{!loggedIn}}" class="hero">
+    <view class="title">熊猫乱斗</view>
+    <view class="subtitle">带上你的熊猫进入竹林，领取收益、强化装备、挑战其他玩家。</view>
+    <button class="primary start" open-type="getPhoneNumber" bindgetphonenumber="startGame" loading="{{loading}}">
+      开始游戏
+    </button>
   </view>
 
-  <view class="section" wx:if="{{home}}">
-    <view class="row">
-      <view class="label">Player</view>
-      <view class="value">{{home.player.nickname}}</view>
+  <block wx:if="{{loggedIn && home}}">
+    <view class="hero">
+      <view class="subtitle">我的熊猫</view>
+      <view class="title">{{home.currentPet.name}} Lv.{{home.currentPet.level}}</view>
+      <view class="subtitle">{{home.player.nickname}} / 竞技积分 {{home.arena.score}}</view>
+      <view>
+        <view class="pill" wx:for="{{bodyTags}}" wx:key="*this">{{item}}</view>
+      </view>
     </view>
-    <view class="row">
-      <view class="label">Pet</view>
-      <view class="value">{{home.currentPet.name}} Lv.{{home.currentPet.level}}</view>
-    </view>
-    <view class="row">
-      <view class="label">Arena Score</view>
-      <view class="value">{{home.arena.score}}</view>
-    </view>
-    <view class="row">
-      <view class="label">Stage</view>
-      <view class="value">{{home.adventure.currentStageName}}</view>
-    </view>
-    <view class="row">
-      <view class="label">Tasks Ready</view>
-      <view class="value">{{home.tasks.unclaimedCount}}</view>
-    </view>
-    <view class="button-row">
-      <button class="secondary" bindtap="goAdventure">Adventure</button>
-      <button class="secondary" bindtap="goEquipment">Gear</button>
-      <button class="secondary" bindtap="goArena">Arena</button>
-    </view>
-  </view>
 
-  <view class="section" wx:if="{{home}}">
-    <view class="title">Current Pet</view>
-    <view class="row"><view class="label">HP</view><view class="value">{{home.currentPet.stats.hp}}</view></view>
-    <view class="row"><view class="label">Attack</view><view class="value">{{home.currentPet.stats.attack}}</view></view>
-    <view class="row"><view class="label">Defense</view><view class="value">{{home.currentPet.stats.defense}}</view></view>
-    <view class="row"><view class="label">Speed</view><view class="value">{{home.currentPet.stats.speed}}</view></view>
-  </view>
+    <view class="section">
+      <view class="title">下一步</view>
+      <view class="subtitle">{{nextAction}}</view>
+      <view class="button-row">
+        <button class="primary" bindtap="goAdventure">去领取</button>
+        <button class="secondary" bindtap="goEquipment">强化装备</button>
+        <button class="secondary" bindtap="goArena">挑战竞技</button>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="title">竹林收益</view>
+      <view class="row">
+        <view class="label">当前关卡</view>
+        <view class="value">{{home.adventure.currentStageName}}</view>
+      </view>
+      <view class="row">
+        <view class="label">可领取</view>
+        <view class="value">{{rewardsText}}</view>
+      </view>
+      <view class="row">
+        <view class="label">金币</view>
+        <view class="value">{{home.resources.gold}}</view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="title">状态</view>
+      <view class="row"><view class="label">生命</view><view class="value">{{home.currentPet.stats.hp}}</view></view>
+      <view class="row"><view class="label">攻击</view><view class="value">{{home.currentPet.stats.attack}}</view></view>
+      <view class="row"><view class="label">防御</view><view class="value">{{home.currentPet.stats.defense}}</view></view>
+      <view class="row"><view class="label">速度</view><view class="value">{{home.currentPet.stats.speed}}</view></view>
+    </view>
+  </block>
 </view>

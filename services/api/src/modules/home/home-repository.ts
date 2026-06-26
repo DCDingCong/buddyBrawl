@@ -1,4 +1,4 @@
-import type { EquipmentQuality, EquipmentSlot } from "@buddy-brawl/shared";
+import type { AppearanceSlots, EquipmentQuality, EquipmentSlot, PandaBodyProfile } from "@buddy-brawl/shared";
 
 export interface HomePetRecord {
   id: string;
@@ -11,6 +11,8 @@ export interface HomePetRecord {
   defense: number;
   speed: number;
   critRate: number;
+  bodyProfile: PandaBodyProfile;
+  appearanceSlots: AppearanceSlots;
 }
 
 export interface HomeEquipmentRecord {
@@ -34,6 +36,8 @@ export interface HomeStateRecord {
     nickname: string;
     avatarUrl?: string | null;
     arenaScore: number;
+    gold: number;
+    enhanceMaterial: number;
   };
   currentPet: HomePetRecord;
   adventureState: {

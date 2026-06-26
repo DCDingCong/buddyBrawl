@@ -83,8 +83,7 @@ class MemoryEquipmentRepository implements EquipmentRepository {
       ...this.state,
       player: {
         ...this.state.player,
-        gold: this.state.player.gold - input.cost.gold,
-        enhanceMaterial: this.state.player.enhanceMaterial - input.cost.enhanceMaterial
+        gold: this.state.player.gold - input.cost.gold
       },
       equipment: this.state.equipment.map((equipment) =>
         equipment.id === input.equipmentId
@@ -169,12 +168,18 @@ describe("equipment routes", () => {
       {
         id: "equipment-1",
         configId: "bamboo_staff_common",
-        name: "Bamboo Staff",
+        name: "青竹长棍",
         slot: "weapon",
         quality: "common",
         enhanceLevel: 0,
         isEquipped: false,
         maxEnhanceLevel: 5,
+        enhanceCost: {
+          gold: 20,
+          requiredItems: [],
+          specialCurrency: [],
+          paidCurrency: []
+        },
         stats: {
           attack: 6
         }
@@ -182,12 +187,18 @@ describe("equipment routes", () => {
       {
         id: "equipment-2",
         configId: "training_claws_common",
-        name: "Training Claws",
+        name: "练习爪套",
         slot: "weapon",
         quality: "common",
         enhanceLevel: 0,
         isEquipped: true,
         maxEnhanceLevel: 5,
+        enhanceCost: {
+          gold: 20,
+          requiredItems: [],
+          specialCurrency: [],
+          paidCurrency: []
+        },
         stats: {
           attack: 4,
           speed: 1
@@ -242,7 +253,7 @@ describe("equipment routes", () => {
     expect(response.statusCode).toBe(200);
     expect(response.json().data.resources).toEqual({
       gold: 80,
-      enhanceMaterial: 2
+      enhanceMaterial: 3
     });
     expect(response.json().data.items[0]).toMatchObject({
       id: "equipment-1",
@@ -255,9 +266,9 @@ describe("equipment routes", () => {
     await app.close();
   });
 
-  test("enhance rejects insufficient materials without modifying equipment", async () => {
+  test("enhance rejects insufficient gold without modifying equipment", async () => {
     const state = createEquipmentState();
-    state.player.enhanceMaterial = 0;
+    state.player.gold = 10;
     const app = await createTestApp(state);
 
     const response = await app.inject({
@@ -276,7 +287,7 @@ describe("equipment routes", () => {
       ok: false,
       error: {
         code: "INSUFFICIENT_RESOURCES",
-        message: "Not enough resources to enhance this equipment."
+        message: "金币不足，暂时无法强化这件装备。"
       }
     });
     expect(state.equipment[0]?.enhanceLevel).toBe(0);

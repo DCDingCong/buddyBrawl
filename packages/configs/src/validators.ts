@@ -127,8 +127,29 @@ export function validateConfigSets(configs: ConfigSets): ConfigValidationResult 
     if (!Number.isInteger(equipment.enhanceCost.gold) || equipment.enhanceCost.gold < 0) {
       errors.push(`equipment ${equipment.id}.enhanceCost.gold must be a non-negative integer`);
     }
-    if (!Number.isInteger(equipment.enhanceCost.enhanceMaterial) || equipment.enhanceCost.enhanceMaterial < 0) {
-      errors.push(`equipment ${equipment.id}.enhanceCost.enhanceMaterial must be a non-negative integer`);
+    for (const itemCost of equipment.enhanceCost.requiredItems) {
+      if (!itemCost.itemConfigId) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.requiredItems itemConfigId is required`);
+      }
+      if (!isPositiveInteger(itemCost.amount)) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.requiredItems amount must be positive`);
+      }
+    }
+    for (const currencyCost of equipment.enhanceCost.specialCurrency) {
+      if (!currencyCost.currencyId) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.specialCurrency currencyId is required`);
+      }
+      if (!isPositiveInteger(currencyCost.amount)) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.specialCurrency amount must be positive`);
+      }
+    }
+    for (const currencyCost of equipment.enhanceCost.paidCurrency) {
+      if (!currencyCost.currencyId) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.paidCurrency currencyId is required`);
+      }
+      if (!isPositiveInteger(currencyCost.amount)) {
+        errors.push(`equipment ${equipment.id}.enhanceCost.paidCurrency amount must be positive`);
+      }
     }
   }
 

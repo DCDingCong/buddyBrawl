@@ -43,7 +43,9 @@ function toHomeStateRecord(player: PrismaHomePlayer): HomeStateRecord {
       id: player.id,
       nickname: player.nickname,
       avatarUrl: player.avatarUrl,
-      arenaScore: player.arenaScore
+      arenaScore: player.arenaScore,
+      gold: player.gold,
+      enhanceMaterial: player.enhanceMaterial
     },
     currentPet: {
       id: player.currentPet.id,
@@ -55,7 +57,9 @@ function toHomeStateRecord(player: PrismaHomePlayer): HomeStateRecord {
       attack: player.currentPet.attack,
       defense: player.currentPet.defense,
       speed: player.currentPet.speed,
-      critRate: player.currentPet.critRate
+      critRate: player.currentPet.critRate,
+      bodyProfile: player.currentPet.bodyProfile as unknown as HomeStateRecord["currentPet"]["bodyProfile"],
+      appearanceSlots: player.currentPet.appearanceSlots as unknown as HomeStateRecord["currentPet"]["appearanceSlots"]
     },
     adventureState: {
       currentStageId: player.adventureState.currentStageId,

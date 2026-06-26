@@ -12,6 +12,9 @@ import type { StageConfig } from "./stages.js";
 import { stageConfigs } from "./stages.js";
 import type { TaskConfig } from "./tasks.js";
 import { taskConfigs } from "./tasks.js";
+import type { TechniqueConfig } from "./techniques.js";
+import { equipmentTechniqueRules, techniqueConfigs } from "./techniques.js";
+import type { EquipmentTechniqueRule } from "@buddy-brawl/shared";
 
 export interface ConfigValidationResult {
   ok: boolean;
@@ -26,6 +29,8 @@ export interface ConfigSets {
   stages: StageConfig[];
   drops: DropPoolConfig[];
   tasks: TaskConfig[];
+  techniques: TechniqueConfig[];
+  equipmentTechniqueRules: EquipmentTechniqueRule[];
 }
 
 function isFiniteNumber(value: number): boolean {
@@ -69,10 +74,14 @@ export function validateConfigSets(configs: ConfigSets): ConfigValidationResult 
   findDuplicateIds(configs.stages, "stage", errors);
   findDuplicateIds(configs.drops, "dropPool", errors);
   findDuplicateIds(configs.tasks, "task", errors);
+  findDuplicateIds(configs.techniques, "technique", errors);
+  findDuplicateIds(configs.equipmentTechniqueRules, "equipmentTechniqueRule", errors);
 
   const equipmentIds = new Set(configs.equipment.map((item) => item.id));
+  const equipmentById = new Map(configs.equipment.map((item) => [item.id, item]));
   const skillIds = new Set(configs.skills.map((item) => item.id));
   const dropPoolIds = new Set(configs.drops.map((item) => item.id));
+  const techniqueIds = new Set(configs.techniques.map((item) => item.id));
 
   for (const pet of configs.pets) {
     validateStatBlock(`pet ${pet.id}.baseStats`, pet.baseStats, errors);
@@ -153,6 +162,42 @@ export function validateConfigSets(configs: ConfigSets): ConfigValidationResult 
     }
   }
 
+  const techniqueEffectKinds = new Set(["bonus_damage", "damage_reduction"]);
+  const techniqueTriggerTimings = new Set(["attack", "defense"]);
+  for (const technique of configs.techniques) {
+    if (!techniqueEffectKinds.has(technique.effectKind)) {
+      errors.push(`technique ${technique.id}.effectKind must be valid`);
+    }
+    if (!isPositiveInteger(technique.effectValue)) {
+      errors.push(`technique ${technique.id}.effectValue must be positive`);
+    }
+    if (!isFiniteNumber(technique.triggerChance) || technique.triggerChance < 0 || technique.triggerChance > 1) {
+      errors.push(`technique ${technique.id}.triggerChance must be between 0 and 1`);
+    }
+    if (!techniqueTriggerTimings.has(technique.triggerTiming)) {
+      errors.push(`technique ${technique.id}.triggerTiming must be valid`);
+    }
+    if (!technique.reportTextTemplate.includes("{actor}") || !technique.reportTextTemplate.includes("{target}")) {
+      errors.push(`technique ${technique.id}.reportTextTemplate must include actor and target placeholders`);
+    }
+  }
+
+  for (const rule of configs.equipmentTechniqueRules) {
+    const equipment = equipmentById.get(rule.equipmentConfigId);
+    if (!equipment) {
+      errors.push(`equipment technique rule ${rule.id} references missing equipment ${rule.equipmentConfigId}`);
+    }
+    if (!techniqueIds.has(rule.techniqueConfigId)) {
+      errors.push(`equipment technique rule ${rule.id} references missing technique ${rule.techniqueConfigId}`);
+    }
+    if (!isPositiveInteger(rule.requiredEnhanceLevel)) {
+      errors.push(`equipment technique rule ${rule.id}.requiredEnhanceLevel must be positive`);
+    }
+    if (equipment && rule.requiredEnhanceLevel > equipment.maxEnhanceLevel) {
+      errors.push(`equipment technique rule ${rule.id}.requiredEnhanceLevel exceeds equipment ${equipment.id} maxEnhanceLevel`);
+    }
+  }
+
   const seenStageOrders = new Set<number>();
   for (const stage of configs.stages) {
     if (!isPositiveInteger(stage.order)) errors.push(`stage ${stage.id}.order must be positive`);
@@ -218,6 +263,8 @@ export function validateConfigs(): ConfigValidationResult {
     skills: skillConfigs,
     stages: stageConfigs,
     drops: dropConfigs,
-    tasks: taskConfigs
+    tasks: taskConfigs,
+    techniques: techniqueConfigs,
+    equipmentTechniqueRules
   });
 }

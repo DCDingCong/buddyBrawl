@@ -4,6 +4,8 @@ export type EquipmentQuality = "common" | "fine" | "rare" | "epic";
 
 export type BattleScene = "adventure" | "arena";
 
+export type BattleTechniqueEffectKind = "bonus_damage" | "damage_reduction";
+
 export interface StatBlock {
   hp: number;
   attack: number;
@@ -44,6 +46,23 @@ export interface EquipmentSnapshot {
   quality: EquipmentQuality;
   enhanceLevel: number;
   stats: Partial<StatBlock>;
+}
+
+export interface BattleTechniqueConfig {
+  id: string;
+  name: string;
+  effectKind: BattleTechniqueEffectKind;
+  effectValue: number;
+  triggerChance: number;
+  triggerTiming: "attack" | "defense";
+  reportTextTemplate: string;
+}
+
+export interface EquipmentTechniqueRule {
+  id: string;
+  equipmentConfigId: string;
+  requiredEnhanceLevel: number;
+  techniqueConfigId: string;
 }
 
 export interface RewardItem {

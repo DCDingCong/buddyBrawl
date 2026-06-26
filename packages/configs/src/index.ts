@@ -5,4 +5,5 @@ export * from "./skills.js";
 export * from "./stages.js";
 export * from "./drops.js";
 export * from "./tasks.js";
+export * from "./techniques.js";
 export * from "./validators.js";

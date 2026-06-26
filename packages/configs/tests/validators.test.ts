@@ -6,6 +6,7 @@ import { petConfigs } from "../src/pets.js";
 import { skillConfigs } from "../src/skills.js";
 import { stageConfigs } from "../src/stages.js";
 import { taskConfigs } from "../src/tasks.js";
+import { equipmentTechniqueRules, techniqueConfigs } from "../src/techniques.js";
 import { validateConfigs, validateConfigSets } from "../src/validators.js";
 
 const validConfigSets = {
@@ -15,7 +16,9 @@ const validConfigSets = {
   skills: skillConfigs,
   stages: stageConfigs,
   drops: dropConfigs,
-  tasks: taskConfigs
+  tasks: taskConfigs,
+  techniques: techniqueConfigs,
+  equipmentTechniqueRules
 };
 
 describe("validateConfigs", () => {
@@ -150,5 +153,49 @@ describe("validateConfigs", () => {
       ok: true,
       errors: []
     });
+  });
+
+  it("accepts equipment technique unlock rules", () => {
+    expect(equipmentTechniqueRules).toContainEqual({
+      id: "bamboo_staff_common_lv1_basic_swing",
+      equipmentConfigId: "bamboo_staff_common",
+      requiredEnhanceLevel: 1,
+      techniqueConfigId: "bamboo_staff_swing"
+    });
+    expect(validateConfigs()).toEqual({
+      ok: true,
+      errors: []
+    });
+  });
+
+  it("rejects invalid equipment technique rules", () => {
+    const result = validateConfigSets({
+      ...validConfigSets,
+      equipmentTechniqueRules: [
+        {
+          id: "bad_missing_equipment",
+          equipmentConfigId: "missing_equipment",
+          requiredEnhanceLevel: 1,
+          techniqueConfigId: "bamboo_staff_swing"
+        },
+        {
+          id: "bad_missing_technique",
+          equipmentConfigId: "bamboo_staff_common",
+          requiredEnhanceLevel: 1,
+          techniqueConfigId: "missing_technique"
+        },
+        {
+          id: "bad_level",
+          equipmentConfigId: "bamboo_staff_common",
+          requiredEnhanceLevel: 6,
+          techniqueConfigId: "bamboo_staff_swing"
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.errors).toContain("equipment technique rule bad_missing_equipment references missing equipment missing_equipment");
+    expect(result.errors).toContain("equipment technique rule bad_missing_technique references missing technique missing_technique");
+    expect(result.errors).toContain("equipment technique rule bad_level.requiredEnhanceLevel exceeds equipment bamboo_staff_common maxEnhanceLevel");
   });
 });

@@ -36,6 +36,7 @@ import { registerHomeRoutes } from "./routes/home.js";
 import { registerLeaderboardRoutes } from "./routes/leaderboard.js";
 import { registerPatrolRoutes } from "./routes/patrol.js";
 import { registerPlayerRoutes } from "./routes/player.js";
+import { registerRankingRoutes } from "./routes/rankings.js";
 import { registerTaskRoutes } from "./routes/tasks.js";
 
 export interface BuildAppOptions {
@@ -100,6 +101,7 @@ export async function buildApp(options: BuildAppOptions = {}) {
   await registerBattleRoutes(app, arenaService);
   await registerLeaderboardRoutes(app, leaderboardService);
   await registerPatrolRoutes(app, patrolService);
+  await registerRankingRoutes(app, leaderboardService, arenaService);
   await registerTaskRoutes(app, taskService);
 
   return app;

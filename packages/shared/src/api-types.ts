@@ -190,6 +190,28 @@ export interface LeaderboardResponse {
   entries: LeaderboardEntryView[];
 }
 
+export interface LevelRankingEntryView {
+  rank: number;
+  playerId: string;
+  nickname: string;
+  petName: string;
+  level: number;
+  arenaScore: number;
+  action: {
+    label: "挑战" | "复仇" | "自己";
+    kind: "challenge" | "revenge" | "self";
+    enabled: boolean;
+  };
+}
+
+export interface LevelRankingResponse {
+  entries: LevelRankingEntryView[];
+}
+
+export interface RankingRevengeRequest {
+  targetPlayerId?: string;
+}
+
 export interface HomeResponse {
   player: PlayerView;
   currentPet: CurrentPetView;

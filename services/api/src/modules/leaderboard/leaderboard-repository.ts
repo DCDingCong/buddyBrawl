@@ -2,6 +2,7 @@ export interface LeaderboardEntryRecord {
   playerId: string;
   nickname: string;
   petName: string;
+  level: number;
   power: number;
   arenaScore: number;
   createdAt: Date;

@@ -26,6 +26,7 @@ export function createPrismaLeaderboardRepository(prisma: PrismaClient): Leaderb
         playerId: player.id,
         nickname: player.nickname,
         petName: player.currentPet!.name,
+        level: player.currentPet!.level,
         power: calculatePower(player.currentPet!),
         arenaScore: player.arenaScore,
         createdAt: player.createdAt

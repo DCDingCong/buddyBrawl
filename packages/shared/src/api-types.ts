@@ -1,5 +1,7 @@
 import type {
   BattleScene,
+  BattleTechniqueConfig,
+  BattleTechniqueEffectKind,
   EquipmentQuality,
   EquipmentSlot,
   EquipmentSnapshot,
@@ -249,6 +251,9 @@ export interface BattleEventView {
   attackerHp: number;
   defenderHp: number;
   text: string;
+  techniqueConfigId?: string;
+  techniqueName?: string;
+  techniqueEffectKind?: BattleTechniqueEffectKind;
 }
 
 export interface BattleResultView {
@@ -269,4 +274,6 @@ export interface SimulateBattleRequest {
   defender: PetSnapshot;
   attackerEquipment: EquipmentSnapshot[];
   defenderEquipment: EquipmentSnapshot[];
+  attackerTechniques?: BattleTechniqueConfig[];
+  defenderTechniques?: BattleTechniqueConfig[];
 }

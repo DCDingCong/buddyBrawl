@@ -1,4 +1,4 @@
-import type { BattleScene, EquipmentSnapshot, PetSnapshot, RewardItem, StatBlock } from "@buddy-brawl/shared";
+import type { BattleScene, BattleTechniqueConfig, BattleTechniqueEffectKind, EquipmentSnapshot, PetSnapshot, RewardItem, StatBlock } from "@buddy-brawl/shared";
 
 export interface BattleInput {
   scene: BattleScene;
@@ -7,6 +7,8 @@ export interface BattleInput {
   defender: PetSnapshot;
   attackerEquipment: EquipmentSnapshot[];
   defenderEquipment: EquipmentSnapshot[];
+  attackerTechniques?: BattleTechniqueConfig[];
+  defenderTechniques?: BattleTechniqueConfig[];
   maxRounds?: number;
 }
 
@@ -26,6 +28,9 @@ export interface BattleEvent {
   attackerHp: number;
   defenderHp: number;
   text: string;
+  techniqueConfigId?: string;
+  techniqueName?: string;
+  techniqueEffectKind?: BattleTechniqueEffectKind;
 }
 
 export interface BattleOutput {

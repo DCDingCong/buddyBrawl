@@ -12,6 +12,22 @@ export interface StatBlock {
   critRate: number;
 }
 
+export interface PandaBodyProfile {
+  heightScale: number;
+  build: "slim" | "balanced" | "round";
+  headRatio: number;
+  posture: "steady" | "relaxed" | "brave";
+  tag: string;
+}
+
+export interface AppearanceSlots {
+  head: string | null;
+  facePattern: string | null;
+  bodyPattern: string | null;
+  back: string | null;
+  handheld: string | null;
+}
+
 export interface PetSnapshot {
   id: string;
   ownerPlayerId: string;

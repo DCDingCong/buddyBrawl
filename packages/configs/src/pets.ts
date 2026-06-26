@@ -11,7 +11,7 @@ export interface PetConfig {
 export const petConfigs: PetConfig[] = [
   {
     id: "panda_rookie",
-    name: "Bamboo Fist Panda",
+    name: "竹拳熊猫",
     baseStats: {
       hp: 120,
       attack: 18,

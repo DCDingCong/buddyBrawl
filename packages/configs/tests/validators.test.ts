@@ -128,13 +128,27 @@ describe("validateConfigs", () => {
   });
 
   it("rejects invalid task rewards", () => {
+    const claimAdventureTask = taskConfigs.find((taskConfig) => taskConfig.id === "first_claim_adventure")!;
     const result = validateConfigSets({
       ...validConfigSets,
-      tasks: [{ ...taskConfigs[0]!, targetCount: 0, rewards: [{ type: "gold", amount: 0 }] }]
+      tasks: [{ ...claimAdventureTask, targetCount: 0, rewards: [{ type: "gold", amount: 0 }] }]
     });
 
     expect(result.ok).toBe(false);
     expect(result.errors).toContain("task first_claim_adventure.targetCount must be positive");
     expect(result.errors).toContain("task first_claim_adventure reward amount must be positive");
+  });
+
+  it("accepts first-version gold-only enhancement costs with extension slots", () => {
+    expect(equipmentConfigs[0]?.enhanceCost).toEqual({
+      gold: 20,
+      requiredItems: [],
+      specialCurrency: [],
+      paidCurrency: []
+    });
+    expect(validateConfigs()).toEqual({
+      ok: true,
+      errors: []
+    });
   });
 });

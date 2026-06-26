@@ -1,0 +1,36 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="hero">
+    <view class="title">装备工坊</view>
+    <view class="subtitle">用金币强化装备，让熊猫在乱斗里更有底气。</view>
+  </view>
+
+  <view class="section" wx:if="{{inventory}}">
+    <view class="row">
+      <view class="label">金币</view>
+      <view class="value">{{inventory.resources.gold}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="title">我的装备</view>
+    <view wx:if="{{!hasItems}}" class="subtitle">还没有可用装备，先去竹林冒险。</view>
+    <view class="list-item" wx:for="{{items}}" wx:key="id">
+      <view class="row">
+        <view>
+          <view class="value">{{item.name}}</view>
+          <view class="subtitle">{{item.slotText}} / {{item.qualityText}} / +{{item.enhanceLevel}}</view>
+        </view>
+        <view class="value">{{item.statusText}}</view>
+      </view>
+      <view class="subtitle">{{item.costText}}</view>
+      <view class="button-row">
+        <button class="secondary" data-id="{{item.id}}" loading="{{loading}}" bindtap="equip">穿戴</button>
+        <button class="primary" data-id="{{item.id}}" loading="{{loading}}" bindtap="enhance" disabled="{{!item.canEnhance}}">
+          强化
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

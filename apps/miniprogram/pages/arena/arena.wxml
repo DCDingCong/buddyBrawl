@@ -1,0 +1,59 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="hero">
+    <view class="title">竞技场</view>
+    <view class="subtitle">挑战其他玩家，提升你的竹林排名。</view>
+  </view>
+
+  <view class="section" wx:if="{{myRank}}">
+    <view class="row">
+      <view class="label">我的排名</view>
+      <view class="value">第 {{myRank.rank}} 名</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="title">可挑战对手</view>
+    <view wx:if="{{!hasOpponents}}" class="subtitle">暂时没有对手，稍后再来。</view>
+    <view class="list-item" wx:for="{{opponents}}" wx:key="playerId">
+      <view class="row">
+        <view>
+          <view class="value">{{item.nickname}}</view>
+          <view class="subtitle">{{item.petName}} Lv.{{item.level}}</view>
+        </view>
+        <view class="value">{{item.arenaScore}}</view>
+      </view>
+      <button class="primary" data-id="{{item.playerId}}" loading="{{loading}}" bindtap="challenge">发起挑战</button>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{result}}">
+    <view class="title">{{resultText}}</view>
+    <view class="subtitle">{{result.attacker.petName}} 对阵 {{result.defender.petName}}</view>
+  </view>
+
+  <view class="section">
+    <view class="title">最近战报</view>
+    <view wx:if="{{!hasBattles}}" class="subtitle">还没有战斗记录。</view>
+    <view class="list-item" wx:for="{{battles}}" wx:key="battleId" data-id="{{item.battleId}}" bindtap="openBattle">
+      <view class="row">
+        <view>
+          <view class="value">{{item.winnerText}}</view>
+          <view class="subtitle">{{item.createdAt}}</view>
+        </view>
+        <view class="value">查看</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="title">排行榜</view>
+    <view class="list-item" wx:for="{{leaderboard}}" wx:key="playerId">
+      <view class="row">
+        <view class="label">第 {{item.rank}} 名 {{item.nickname}}</view>
+        <view class="value">{{item.arenaScore}}</view>
+      </view>
+    </view>
+  </view>
+</view>

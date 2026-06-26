@@ -1,0 +1,35 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="hero">
+    <view class="title">竹林冒险</view>
+    <view class="subtitle">熊猫会在竹林里持续带回金币和经验。</view>
+  </view>
+
+  <view class="section" wx:if="{{status}}">
+    <view class="row">
+      <view class="label">当前关卡</view>
+      <view class="value">{{status.currentStageName}}</view>
+    </view>
+    <view class="row">
+      <view class="label">累计时间</view>
+      <view class="value">{{status.elapsedMinutes}} 分钟</view>
+    </view>
+    <view class="row">
+      <view class="label">可领取</view>
+      <view class="value">{{rewardsText}}</view>
+    </view>
+    <view class="button-row">
+      <button class="primary" loading="{{loading}}" bindtap="claimRewards">领取收益</button>
+      <button class="secondary" loading="{{loading}}" bindtap="challengeBoss">挑战关卡</button>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{battle}}">
+    <view class="title">{{battleTitle}}</view>
+    <view class="subtitle">{{battle.attacker.petName}} 对阵 {{battle.defender.petName}}</view>
+    <view class="list-item" wx:for="{{roundTexts}}" wx:key="*this">
+      <view class="subtitle">{{item}}</view>
+    </view>
+  </view>
+</view>

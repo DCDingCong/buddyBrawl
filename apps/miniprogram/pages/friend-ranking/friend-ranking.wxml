@@ -1,0 +1,38 @@
+<view class="page ranking-page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="topbar">
+    <view class="back">‹</view>
+    <view class="rank-title">好友排名（按等级）</view>
+    <view class="spacer"></view>
+  </view>
+
+  <view class="podium">
+    <view class="podium-card rank-{{item.rank}}" wx:for="{{podium}}" wx:key="playerId">
+      <view class="medal">{{item.rank}}</view>
+      <view class="badge">{{item.badge}}</view>
+      <view class="podium-avatar">{{item.avatar}}</view>
+      <view class="friend-name">{{item.nickname}}</view>
+      <view class="level">Lv.{{item.level}}</view>
+    </view>
+  </view>
+
+  <view class="friend-list">
+    <view class="friend-row" wx:for="{{friends}}" wx:key="playerId">
+      <view class="rank-num">{{item.rank}}</view>
+      <view class="avatar">{{item.avatar}}</view>
+      <view class="friend-copy">
+        <view class="friend-name">{{item.nickname}}</view>
+        <view class="subtitle">{{item.petName}} · {{item.recent}}</view>
+      </view>
+      <view class="friend-level">Lv.{{item.level}}</view>
+      <button
+        class="action-icon {{item.revenge ? 'revenge' : 'challenge'}}"
+        data-id="{{item.playerId}}"
+        data-revenge="{{item.revenge}}"
+        bindtap="challenge"
+        loading="{{loading}}"
+      >{{item.revenge ? '⚔' : '⚒'}}</button>
+    </view>
+  </view>
+</view>

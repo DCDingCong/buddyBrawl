@@ -1,27 +1,47 @@
-<view class="page">
+<view class="page report-page">
   <view wx:if="{{error}}" class="error">{{error}}</view>
 
-  <view class="hero">
-    <view class="title">战报详情</view>
-    <view class="subtitle">回看这场乱斗的关键回合。</view>
+  <view class="newspaper">
+    <view class="tape"></view>
+    <view class="masthead">今日乱斗报</view>
+    <view class="stamp">{{resultText}}</view>
+    <view class="lead">{{attackerName}}击败了 {{defenderName}}</view>
+
+    <view class="news-section key-round">
+      <view class="section-title">关键回合</view>
+      <view class="round-card">
+        <view class="star">★</view>
+        <view>
+          <view class="round-name">{{keyRound}}</view>
+          <view class="subtitle">{{keyText}}</view>
+        </view>
+        <view class="mini-fight">🐼💥🐻</view>
+      </view>
+    </view>
+
+    <view class="news-section weapon-section">
+      <view class="section-title">武器触发</view>
+      <view class="weapon-row">
+        <view class="brick">🧱</view>
+        <view>
+          <view class="round-name">{{weaponName}} Lv.{{weaponLevel}}</view>
+          <view class="accent">{{weaponText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="news-section">
+      <view class="section-title">战后成长</view>
+      <view class="growth-row" wx:for="{{growthLines}}" wx:key="*this">
+        <text class="medal">🏅</text>
+        <text>{{item}}</text>
+        <text class="accent"> ↑</text>
+      </view>
+    </view>
   </view>
 
-  <view class="section" wx:if="{{report}}">
-    <view class="title">{{resultText}}</view>
-    <view class="row">
-      <view class="label">我方</view>
-      <view class="value">{{report.attacker.petName}} Lv.{{report.attacker.level}}</view>
-    </view>
-    <view class="row">
-      <view class="label">对手</view>
-      <view class="value">{{report.defender.petName}} Lv.{{report.defender.level}}</view>
-    </view>
-  </view>
-
-  <view class="section" wx:if="{{report}}">
-    <view class="title">回合记录</view>
-    <view class="list-item" wx:for="{{roundTexts}}" wx:key="*this">
-      <view class="subtitle">{{item}}</view>
-    </view>
+  <view class="settle-actions">
+    <button class="primary" bindtap="goBattle">🐼 再打一场</button>
+    <button class="secondary" bindtap="goHome">回首页</button>
   </view>
 </view>

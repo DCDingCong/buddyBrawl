@@ -1,3 +1,126 @@
-button {
-  margin-top: 16rpx;
+.report-page {
+  padding-top: 24rpx;
+}
+
+.newspaper {
+  position: relative;
+  padding: 34rpx 28rpx 32rpx;
+  border: 3rpx solid #8a744e;
+  background:
+    linear-gradient(90deg, rgba(75, 58, 31, 0.08) 1rpx, transparent 1rpx),
+    linear-gradient(180deg, #fbefd1 0%, #f4e2ba 100%);
+  background-size: 100% 72rpx, 100% 100%;
+  box-shadow: 0 10rpx 0 rgba(69, 48, 24, 0.12);
+}
+
+.tape {
+  position: absolute;
+  left: -8rpx;
+  top: -12rpx;
+  width: 96rpx;
+  height: 56rpx;
+  background: rgba(210, 78, 52, 0.68);
+  transform: rotate(-22deg);
+}
+
+.masthead {
+  color: #17130d;
+  font-size: 72rpx;
+  font-weight: 900;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.stamp {
+  position: absolute;
+  right: 42rpx;
+  top: 118rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border: 7rpx solid #d44c32;
+  border-radius: 50%;
+  color: #d44c32;
+  font-size: 38rpx;
+  font-weight: 900;
+  line-height: 106rpx;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.lead {
+  margin: 30rpx 0 16rpx;
+  padding-bottom: 18rpx;
+  border-bottom: 2rpx solid #b7a37a;
+  color: #3b3021;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.news-section {
+  padding: 18rpx 0;
+  border-bottom: 2rpx solid rgba(145, 119, 76, 0.35);
+}
+
+.news-section:last-child {
+  border-bottom: 0;
+}
+
+.section-title {
+  margin-bottom: 12rpx;
+  color: #2d251a;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.round-card {
+  display: grid;
+  grid-template-columns: 48rpx 1fr 138rpx;
+  align-items: center;
+  gap: 12rpx;
+  padding: 12rpx;
+  border: 2rpx solid #d7c39b;
+  border-radius: 10rpx;
+  background: rgba(255, 248, 229, 0.72);
+}
+
+.star {
+  color: #e8ae2c;
+  font-size: 44rpx;
+}
+
+.round-name {
+  color: #2c261d;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.mini-fight {
+  font-size: 42rpx;
+  text-align: right;
+}
+
+.weapon-row,
+.growth-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  min-height: 62rpx;
+  color: #3d3223;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.brick {
+  font-size: 58rpx;
+}
+
+.medal {
+  font-size: 40rpx;
+}
+
+.settle-actions {
+  display: grid;
+  grid-template-columns: 1fr 180rpx;
+  gap: 18rpx;
+  margin-top: 26rpx;
 }

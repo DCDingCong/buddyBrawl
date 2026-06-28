@@ -1,56 +1,63 @@
-<view class="page">
+<view class="page home-page">
   <view wx:if="{{error}}" class="error">{{error}}</view>
 
-  <view wx:if="{{!loggedIn}}" class="hero">
+  <view wx:if="{{!loggedIn}}" class="login-card paper-card">
+    <view class="login-panda">🐼</view>
     <view class="title">熊猫乱斗</view>
-    <view class="subtitle">带上你的熊猫进入竹林，领取收益、强化装备、挑战其他玩家。</view>
+    <view class="subtitle">带上你的熊猫进竹林，看刚刚发生的热闹，再打一场。</view>
     <button class="primary start" open-type="getPhoneNumber" bindgetphonenumber="startGame" loading="{{loading}}">
-      开始游戏
+      开始乱斗
     </button>
   </view>
 
-  <block wx:if="{{loggedIn && home}}">
-    <view class="hero">
-      <view class="subtitle">我的熊猫</view>
-      <view class="title">{{home.currentPet.name}} Lv.{{home.currentPet.level}}</view>
-      <view class="subtitle">{{home.player.nickname}} / 竞技积分 {{home.arena.score}}</view>
-      <view>
-        <view class="pill" wx:for="{{bodyTags}}" wx:key="*this">{{item}}</view>
+  <block wx:if="{{loggedIn}}">
+    <view class="profile-card paper-card">
+      <view class="panda-avatar">🐼</view>
+      <view class="profile-main">
+        <view class="title">{{petName}}</view>
+        <view class="level">Lv.{{petLevel}}</view>
+        <view class="subtitle">{{playerName}}</view>
+      </view>
+      <view class="edit-dot">✎</view>
+    </view>
+
+    <view class="event-board paper-card">
+      <view class="title center">胖达刚刚又惹事了</view>
+      <view class="event-row" wx:for="{{events}}" wx:key="title">
+        <view class="event-icon">{{item.icon}}</view>
+        <view class="event-copy">
+          <view class="event-title">{{item.title}}</view>
+          <view class="subtitle">{{item.text}}</view>
+        </view>
+        <view class="event-time">{{item.time}}</view>
       </view>
     </view>
 
-    <view class="section">
-      <view class="title">下一步</view>
-      <view class="subtitle">{{nextAction}}</view>
-      <view class="button-row">
-        <button class="primary" bindtap="goAdventure">去领取</button>
-        <button class="secondary" bindtap="goEquipment">强化装备</button>
-        <button class="secondary" bindtap="goArena">挑战竞技</button>
+    <view class="timer-card paper-card row">
+      <view class="timer-icon">⏱</view>
+      <view class="timer-copy">
+        <view class="event-title">自动记录中</view>
+        <view class="subtitle">{{nextRecordText}}</view>
       </view>
+      <button class="primary collect" loading="{{loading}}" bindtap="collectRecord">收取</button>
     </view>
 
-    <view class="section">
-      <view class="title">竹林收益</view>
-      <view class="row">
-        <view class="label">当前关卡</view>
-        <view class="value">{{home.adventure.currentStageName}}</view>
-      </view>
-      <view class="row">
-        <view class="label">可领取</view>
-        <view class="value">{{rewardsText}}</view>
-      </view>
-      <view class="row">
-        <view class="label">金币</view>
-        <view class="value">{{home.resources.gold}}</view>
-      </view>
-    </view>
+    <button class="primary brawl-button" bindtap="goBattle">
+      <text class="button-panda">🐼</text>
+      再打一场
+    </button>
 
-    <view class="section">
-      <view class="title">状态</view>
-      <view class="row"><view class="label">生命</view><view class="value">{{home.currentPet.stats.hp}}</view></view>
-      <view class="row"><view class="label">攻击</view><view class="value">{{home.currentPet.stats.attack}}</view></view>
-      <view class="row"><view class="label">防御</view><view class="value">{{home.currentPet.stats.defense}}</view></view>
-      <view class="row"><view class="label">速度</view><view class="value">{{home.currentPet.stats.speed}}</view></view>
+    <view class="quick-actions">
+      <button class="secondary" bindtap="goTasks">📋 今日任务</button>
+      <button class="secondary" bindtap="showReport">🧾 看最新战报</button>
     </view>
   </block>
+
+  <newspaper-report
+    visible="{{reportVisible}}"
+    title="胖达小报"
+    bind:close="hideReport"
+    bind:revenge="goRevenge"
+    bind:primary="goBattle"
+  />
 </view>

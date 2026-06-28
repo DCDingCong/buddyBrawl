@@ -1,0 +1,25 @@
+<view wx:if="{{visible}}" class="report-mask" catchtouchmove="close">
+  <view class="report-scroll" catchtap="noop">
+    <view class="scroll-roll left"></view>
+    <view class="scroll-roll right"></view>
+    <view class="report-head">
+      <view class="report-title">{{title}}</view>
+      <view class="stamp">战报</view>
+      <view class="panda-sticker">🐼</view>
+    </view>
+    <view class="report-panels">
+      <view class="report-panel" wx:for="{{panels}}" wx:key="title">
+        <view class="panel-title">{{item.title}}</view>
+        <view class="panel-body">
+          <text class="panel-icon">{{item.icon}}</text>
+          <text>{{item.body}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="report-actions">
+      <button class="secondary" bindtap="close">知道了</button>
+      <button wx:if="{{showRevenge}}" class="danger" bindtap="revenge">⚔ 去复仇</button>
+      <button class="primary" bindtap="primary">🐼 {{primaryText}}</button>
+    </view>
+  </view>
+</view>

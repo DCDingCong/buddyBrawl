@@ -1,0 +1,148 @@
+.ranking-page {
+  padding-top: 34rpx;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 70rpx 1fr 70rpx;
+  align-items: center;
+  margin-bottom: 26rpx;
+}
+
+.back {
+  font-size: 58rpx;
+  line-height: 70rpx;
+}
+
+.rank-title {
+  color: #2c261d;
+  font-size: 32rpx;
+  font-weight: 900;
+  text-align: center;
+}
+
+.podium {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr 1fr;
+  align-items: end;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.podium-card {
+  position: relative;
+  min-height: 212rpx;
+  padding: 18rpx 10rpx 16rpx;
+  border: 2rpx solid #d7c49c;
+  border-radius: 16rpx;
+  background: rgba(255, 249, 232, 0.9);
+  text-align: center;
+}
+
+.rank-1 {
+  min-height: 252rpx;
+  border-color: #e1a52d;
+  background: #fff1c7;
+  order: 2;
+}
+
+.rank-2 {
+  order: 1;
+}
+
+.rank-3 {
+  order: 3;
+}
+
+.medal {
+  position: absolute;
+  left: 50%;
+  top: -28rpx;
+  width: 58rpx;
+  height: 58rpx;
+  margin-left: -29rpx;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #f2c044, #c7871c);
+  color: #fff7df;
+  font-size: 32rpx;
+  font-weight: 900;
+  line-height: 58rpx;
+}
+
+.podium-avatar {
+  margin-top: 18rpx;
+  font-size: 80rpx;
+}
+
+.friend-name {
+  color: #2c261d;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.level,
+.friend-level {
+  color: #2c261d;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+
+.friend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.friend-row {
+  display: grid;
+  grid-template-columns: 46rpx 70rpx 1fr 82rpx 70rpx;
+  align-items: center;
+  gap: 14rpx;
+  min-height: 92rpx;
+  padding: 12rpx 16rpx;
+  border: 2rpx solid #d7c49c;
+  border-radius: 14rpx;
+  background: rgba(255, 249, 232, 0.92);
+}
+
+.rank-num {
+  color: #3f3527;
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #ead9af;
+  font-size: 44rpx;
+  line-height: 64rpx;
+  text-align: center;
+}
+
+.friend-copy {
+  min-width: 0;
+}
+
+.friend-level {
+  text-align: right;
+}
+
+.action-icon {
+  width: 64rpx;
+  height: 64rpx;
+  padding: 0;
+  border-radius: 12rpx;
+  color: #fff8ed;
+  font-size: 32rpx;
+  line-height: 64rpx;
+}
+
+.challenge {
+  background: #4f7a3d;
+}
+
+.revenge {
+  background: #c9472f;
+}

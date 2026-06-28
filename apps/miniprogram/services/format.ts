@@ -1,9 +1,9 @@
 export function rewardName(type: string): string {
   const names: Record<string, string> = {
-    gold: "金币",
+    gold: "竹币",
     exp: "经验",
-    enhanceMaterial: "预留材料",
-    equipment: "装备"
+    enhanceMaterial: "熟练材料",
+    equipment: "武器"
   };
   return names[type] || type;
 }
@@ -13,7 +13,7 @@ export function slotName(slot: string): string {
     weapon: "武器",
     head: "头部",
     body: "身体",
-    accessory: "饰品"
+    accessory: "挂件"
   };
   return names[slot] || slot;
 }
@@ -29,12 +29,12 @@ export function qualityName(quality: string): string {
 }
 
 export function winnerText(winner: string): string {
-  return winner === "attacker" ? "我方获胜" : "对手获胜";
+  return winner === "attacker" ? "胜利" : "惜败";
 }
 
 export function battleEventText(event: { actor: string; damage: number; isCritical?: boolean }): string {
-  const actorText = event.actor === "attacker" ? "我方" : "对手";
-  const criticalText = event.isCritical ? "，触发暴击" : "";
+  const actorText = event.actor === "attacker" ? "胖达" : "对手";
+  const criticalText = event.isCritical ? "，重拳命中" : "";
   return `${actorText}造成 ${event.damage} 点伤害${criticalText}`;
 }
 

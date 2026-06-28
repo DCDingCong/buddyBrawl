@@ -1,0 +1,137 @@
+.report-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+  background: rgba(36, 30, 20, 0.36);
+  box-sizing: border-box;
+}
+
+.report-scroll {
+  position: relative;
+  width: 100%;
+  max-width: 686rpx;
+  padding: 28rpx 30rpx 30rpx;
+  border: 3rpx solid #8b744d;
+  border-radius: 20rpx;
+  background: #f8edcf;
+  box-shadow: 0 14rpx 0 rgba(61, 43, 21, 0.24);
+  box-sizing: border-box;
+}
+
+.scroll-roll {
+  position: absolute;
+  top: 12rpx;
+  bottom: 12rpx;
+  width: 18rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #b79a68, #f5dfab);
+}
+
+.scroll-roll.left {
+  left: -10rpx;
+}
+
+.scroll-roll.right {
+  right: -10rpx;
+}
+
+.report-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96rpx;
+}
+
+.report-title {
+  font-size: 50rpx;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.stamp {
+  position: absolute;
+  right: 92rpx;
+  top: 12rpx;
+  width: 74rpx;
+  height: 74rpx;
+  border: 5rpx solid #d45436;
+  border-radius: 50%;
+  color: #d45436;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 66rpx;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.panda-sticker {
+  position: absolute;
+  right: 0;
+  top: -12rpx;
+  font-size: 68rpx;
+}
+
+.report-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.report-panel {
+  min-height: 156rpx;
+  padding: 16rpx;
+  border: 2rpx solid #c6b38d;
+  border-radius: 10rpx;
+  background: rgba(255, 249, 232, 0.72);
+  box-sizing: border-box;
+}
+
+.panel-title {
+  margin-bottom: 12rpx;
+  color: #2c261d;
+  font-size: 24rpx;
+  font-weight: 800;
+  text-align: center;
+}
+
+.panel-body {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  color: #3b3123;
+  font-size: 23rpx;
+  line-height: 1.35;
+}
+
+.panel-icon {
+  flex: 0 0 auto;
+  font-size: 42rpx;
+}
+
+.report-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16rpx;
+  margin-top: 22rpx;
+}
+
+.report-actions button {
+  min-width: 0;
+  min-height: 70rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 800;
+  line-height: 70rpx;
+}
+
+.danger {
+  background: linear-gradient(180deg, #e86549, #c9472f);
+  color: #fff8ed;
+  box-shadow: 0 6rpx 0 #95311f;
+}

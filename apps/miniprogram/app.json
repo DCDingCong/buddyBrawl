@@ -2,38 +2,34 @@
   "pages": [
     "pages/home/home",
     "pages/profile-setup/profile-setup",
-    "pages/adventure/adventure",
+    "pages/battle-animation/battle-animation",
+    "pages/battle-report/battle-report",
     "pages/equipment/equipment",
-    "pages/arena/arena",
-    "pages/battle-report/battle-report"
+    "pages/friend-ranking/friend-ranking"
   ],
   "window": {
     "navigationBarTitleText": "熊猫乱斗",
-    "navigationBarBackgroundColor": "#243528",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#f4f1e8"
+    "navigationBarBackgroundColor": "#f5ead2",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f4efe2"
   },
   "tabBar": {
-    "color": "#7a7165",
-    "selectedColor": "#243528",
-    "backgroundColor": "#fffdf7",
+    "color": "#51483b",
+    "selectedColor": "#315f2e",
+    "backgroundColor": "#fff8e8",
     "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "主页"
-      },
-      {
-        "pagePath": "pages/adventure/adventure",
-        "text": "冒险"
+        "text": "首页"
       },
       {
         "pagePath": "pages/equipment/equipment",
-        "text": "装备"
+        "text": "武器"
       },
       {
-        "pagePath": "pages/arena/arena",
-        "text": "竞技"
+        "pagePath": "pages/friend-ranking/friend-ranking",
+        "text": "好友排名"
       }
     ]
   },

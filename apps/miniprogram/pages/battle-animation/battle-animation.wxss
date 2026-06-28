@@ -1,0 +1,174 @@
+.battle-page {
+  padding-top: 36rpx;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 70rpx 1fr 70rpx;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+
+.back {
+  color: #342b20;
+  font-size: 58rpx;
+  line-height: 70rpx;
+}
+
+.round-title {
+  font-size: 36rpx;
+  font-weight: 900;
+  text-align: center;
+}
+
+.fighters {
+  display: grid;
+  grid-template-columns: 1fr 92rpx 1fr;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.fighter {
+  display: grid;
+  grid-template-columns: 72rpx 1fr;
+  column-gap: 12rpx;
+  align-items: center;
+}
+
+.fighter:last-child {
+  direction: rtl;
+}
+
+.fighter:last-child .name,
+.fighter:last-child .subtitle {
+  direction: ltr;
+  text-align: right;
+}
+
+.face {
+  grid-row: span 2;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: #efe0b9;
+  font-size: 52rpx;
+  line-height: 72rpx;
+  text-align: center;
+}
+
+.dark {
+  background: #b9a98c;
+}
+
+.name {
+  color: #2c261d;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+
+.vs {
+  color: #d44b30;
+  font-size: 50rpx;
+  font-weight: 900;
+  text-align: center;
+  transform: rotate(-8deg);
+}
+
+.stage {
+  position: relative;
+  height: 396rpx;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 245, 210, 0.8), transparent 18%),
+    linear-gradient(145deg, #c9d0b3 0%, #73816a 52%, #354236 100%);
+}
+
+.fighter-large {
+  position: absolute;
+  bottom: 38rpx;
+  font-size: 156rpx;
+}
+
+.panda {
+  left: 78rpx;
+}
+
+.bear {
+  right: 58rpx;
+}
+
+.weapon {
+  position: absolute;
+  left: 252rpx;
+  top: 188rpx;
+  color: #9d5e2b;
+  font-size: 86rpx;
+  transform: rotate(-30deg);
+}
+
+.impact {
+  position: absolute;
+  left: 300rpx;
+  top: 148rpx;
+  color: #ffd76d;
+  font-size: 136rpx;
+}
+
+.damage {
+  position: absolute;
+  right: 80rpx;
+  top: 54rpx;
+  color: #d44b30;
+  font-size: 76rpx;
+  font-weight: 900;
+  text-shadow: 3rpx 3rpx 0 #2f2519;
+}
+
+.log-row {
+  display: grid;
+  grid-template-columns: 72rpx 48rpx 1fr;
+  align-items: center;
+  min-height: 56rpx;
+  color: #3a2f21;
+  font-size: 25rpx;
+}
+
+.log-time {
+  color: #7f715c;
+}
+
+.log-icon {
+  font-size: 34rpx;
+}
+
+.battle-controls {
+  display: grid;
+  grid-template-columns: 118rpx 1fr 118rpx;
+  align-items: center;
+  gap: 22rpx;
+  margin-top: 26rpx;
+}
+
+.icon-control {
+  height: 92rpx;
+  padding: 0;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+.control-label {
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.speed-label {
+  color: #3b3123;
+  font-size: 28rpx;
+  font-weight: 800;
+  text-align: center;
+}
+
+.continue {
+  width: 100%;
+  margin-top: 20rpx;
+}

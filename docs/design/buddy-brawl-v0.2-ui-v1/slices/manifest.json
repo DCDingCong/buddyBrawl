@@ -1,0 +1,93 @@
+[
+  {
+    "file": "01-home-page.png",
+    "crop": [
+      0,
+      0,
+      345,
+      620
+    ],
+    "size": [
+      345,
+      620
+    ]
+  },
+  {
+    "file": "02-battle-animation-page.png",
+    "crop": [
+      345,
+      0,
+      660,
+      620
+    ],
+    "size": [
+      315,
+      620
+    ]
+  },
+  {
+    "file": "03-battle-settlement-page.png",
+    "crop": [
+      660,
+      0,
+      975,
+      620
+    ],
+    "size": [
+      315,
+      620
+    ]
+  },
+  {
+    "file": "04-weapon-page.png",
+    "crop": [
+      975,
+      0,
+      1305,
+      620
+    ],
+    "size": [
+      330,
+      620
+    ]
+  },
+  {
+    "file": "05-friend-ranking-page.png",
+    "crop": [
+      1305,
+      0,
+      1645,
+      620
+    ],
+    "size": [
+      340,
+      620
+    ]
+  },
+  {
+    "file": "06-newspaper-report-modal.png",
+    "crop": [
+      175,
+      610,
+      885,
+      925
+    ],
+    "size": [
+      710,
+      315
+    ]
+  },
+  {
+    "file": "07-weapon-detail-expanded.png",
+    "crop": [
+      895,
+      625,
+      1535,
+      890
+    ],
+    "size": [
+      640,
+      265
+    ]
+  }
+]

@@ -1,0 +1,45 @@
+<view class="page battle-page">
+  <view class="topbar">
+    <view class="back" bindtap="skip">‹</view>
+    <view class="round-title">第 {{round}} 回合</view>
+    <view class="spacer"></view>
+  </view>
+
+  <view class="fighters paper-card">
+    <view class="fighter">
+      <view class="face">🐼</view>
+      <view class="name">胖达</view>
+      <view class="subtitle">Lv.6</view>
+    </view>
+    <view class="vs">VS</view>
+    <view class="fighter">
+      <view class="face dark">🐻</view>
+      <view class="name">黑衣熊</view>
+      <view class="subtitle">Lv.5</view>
+    </view>
+  </view>
+
+  <view class="stage paper-card">
+    <view class="panda fighter-large">🐼</view>
+    <view class="impact">✦</view>
+    <view class="bear fighter-large">🐻</view>
+    <view class="weapon">▰</view>
+    <view class="damage">-28</view>
+  </view>
+
+  <view class="battle-log paper-card">
+    <view class="log-row" wx:for="{{logs}}" wx:key="text">
+      <text class="log-time">{{item.time}}</text>
+      <text class="log-icon">{{item.icon}}</text>
+      <text>{{item.text}}</text>
+    </view>
+  </view>
+
+  <view class="battle-controls">
+    <button class="secondary icon-control" bindtap="skip">▶▶<view class="control-label">跳过</view></button>
+    <view class="speed-label">{{accelerated ? '加速中 x2' : '正常速度'}}</view>
+    <button class="secondary icon-control" bindtap="toggleSpeed">▶▶<view class="control-label">x2</view></button>
+  </view>
+
+  <button class="primary continue" bindtap="continueBattle">继续</button>
+</view>

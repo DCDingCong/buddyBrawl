@@ -1,8 +1,137 @@
-.start {
-  margin-top: 28rpx;
+.home-page {
+  padding-top: 34rpx;
 }
 
-.button-row button {
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 32rpx;
+  text-align: center;
+}
+
+.login-panda {
+  margin-bottom: 18rpx;
+  font-size: 112rpx;
+}
+
+.start {
+  width: 100%;
+  margin-top: 32rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  min-height: 154rpx;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(96, 128, 77, 0.14), transparent 54%),
+    rgba(255, 250, 235, 0.92);
+}
+
+.panda-avatar {
+  width: 132rpx;
+  height: 132rpx;
+  margin-right: 22rpx;
+  border-radius: 50%;
+  background: #e8d6a8;
+  font-size: 96rpx;
+  line-height: 132rpx;
+  text-align: center;
+}
+
+.profile-main {
   flex: 1;
-  min-width: 0;
+}
+
+.level {
+  margin-top: 2rpx;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.edit-dot {
+  width: 42rpx;
+  height: 42rpx;
+  border: 2rpx solid #8d7e62;
+  border-radius: 50%;
+  color: #4d432f;
+  font-size: 24rpx;
+  line-height: 42rpx;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 76rpx 1fr 72rpx;
+  align-items: center;
+  gap: 16rpx;
+  min-height: 96rpx;
+  margin-top: 14rpx;
+  padding: 10rpx 14rpx;
+  border: 2rpx solid #dfd0ad;
+  border-radius: 12rpx;
+  background: #fff9eb;
+}
+
+.event-icon {
+  font-size: 56rpx;
+  text-align: center;
+}
+
+.event-title {
+  color: #2c261d;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.event-time {
+  color: #ad9d80;
+  font-size: 22rpx;
+  text-align: right;
+}
+
+.timer-card {
+  align-items: center;
+}
+
+.timer-icon {
+  width: 66rpx;
+  height: 66rpx;
+  border: 3rpx solid #c99b31;
+  border-radius: 50%;
+  font-size: 38rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.timer-copy {
+  flex: 1;
+}
+
+.collect {
+  width: 132rpx;
+}
+
+.brawl-button {
+  width: 100%;
+  height: 94rpx;
+  margin: 24rpx 0 20rpx;
+  font-size: 40rpx;
+  line-height: 94rpx;
+}
+
+.button-panda {
+  margin-right: 18rpx;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18rpx;
 }

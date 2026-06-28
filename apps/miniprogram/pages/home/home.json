@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "我的熊猫"
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "newspaper-report": "/components/newspaper-report/newspaper-report"
+  }
 }
